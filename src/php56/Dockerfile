@@ -12,14 +12,14 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM php:5.5-apache
+FROM php:5.6-apache
 MAINTAINER Sascha Andres <sascha.andres@outlook.com>
 
 RUN mkdir /src && \
     mkdir /app && \
     mkdir /exec && \
     echo "\n**** Updating system ***\n" && \
-    apt-get update -y && \
+    apt-get update && \
     apt-get dist-upgrade -y && \
     apt-get install -y wget git unzip && \
     apt-get autoremove -y && \
