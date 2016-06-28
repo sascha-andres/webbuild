@@ -41,6 +41,9 @@ RUN  gem install rubygems-update && \
 COPY scripts/build.sh /exec/build.sh
 COPY scripts/composer /usr/local/bin/composer
 
+ONBUILD COPY prebuild.sh /exec/prebuild.sh
+ONBUILD COPY postbuild.sh /exec/postbuild.sh
+
 RUN chmod 700 /exec/build.sh
 
 ENTRYPOINT /exec/build.sh
