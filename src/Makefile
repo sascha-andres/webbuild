@@ -8,7 +8,7 @@ php56:
 	docker build --no-cache -f php56/Dockerfile -t briefbote/webbuild:56 .
 	docker push briefbote/webbuild:56
 
-.PHONY: php56
+.PHONY: php70
 php70:
 	docker build --no-cache -f php70/Dockerfile -t briefbote/webbuild:70 -t briefbote/webbuild:latest .
 	docker push briefbote/webbuild:70

@@ -83,7 +83,7 @@ fi
 
 # run custom.sh if included in source
 if [ -e /src/custom.sh ]; then
-    header "GULP"
+    header "CUSTOM"
     chmod 700 /src/custom.sh
     /src/custom.sh
     check_and_exit $? custom
@@ -114,6 +114,7 @@ if [ ! "$(ls -A /app)" ]; then
 fi
 
 if [ ! "$(ls -A /app)" ]; then
+    echo "*** NO BUILD RESULT"
     exit 1
 else
     exit 0

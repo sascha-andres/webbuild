@@ -60,6 +60,20 @@ The base directory ( the directory where the entrypoint runs the build steps ) i
 
 Non zero exit codes will be returned when one of the build steps are failing or `/app` is empty after step 10
 
+## Usage ##
+
+Assume you want to build a web application in the current directory containing the sources within the `src` subfolder
+and you want to place the build in the `app` subfolder.
+
+Then you can run the build like this:
+
+    docker run -t briefbote/webbuild:latest -v $PWD/src:/src -v $PWD/app:/app
+
+A very simplistic sample of it is in the `test` subfolder of this repository (note that `test/app/` is in the `.gitignore` file).
+
+To run the sample change to the test directory and run `run.sh`. It (re)creates the app subfolder ands starts a build
+that actually does nothing more then to copy the `index.html` using a custom.sh into the `/app` folder
+
 ## Code ##
 
 Code is open source under the Apache 2.0 License. You can obtain it at https://github.com/sascha-andres/webbuild
