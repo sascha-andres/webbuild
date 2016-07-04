@@ -22,13 +22,14 @@ The `latest` tag points to the PHP7.0 version
 
 Inside the following tools are installed:
 
-* NODEJS 4.X ( latest to the time the image was created/uploaded )
-* Grunt
-* Gulp
-* Bower
 * Ruby with Gems sass, compass and breakpoint
 
 Build expects `/src` containing the source code and `/app` containing the release after all build steps have run.
+
+
+## Execution ##
+
+NODEJS will be installed using nvm. It is respecting .nvmrc. After that, grunt, gulp and bower are installed
 
 ## ONBUILD ##
 
