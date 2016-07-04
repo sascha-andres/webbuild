@@ -27,6 +27,11 @@ function header {
         echo ""
 }
 
+# NVM
+NVM_DIR=/root/.nvm
+export NVM_DIR
+. "$NVM_DIR/nvm.sh"
+
 # Set variables for build run
 BASE=/src
 
@@ -34,11 +39,50 @@ if [ -d /src/src ]; then
     BASE /src/src
 fi
 
+echo "*** Base directory: $BASE"
+
+cd $BASE
+
+echo ""
+echo "*** NODE and NODE based ***"
+echo ""
+
+if [ -e $BASE/.nvmrc ]; then
+    echo "*** Using .nvmrc"
+    nvm install
+    check_and_exit $? NVM_USE
+    nvm use
+    check_and_exit $? NVM_USE
+else
+    nvm install v4.4
+    check_and_exit $? NVM_INSTALL
+    nvm use v4.4
+    check_and_exit $? NVM_USE
+fi
+
+echo "*** NODE version: `node --version`"
+
+echo ""
+echo "*** grunt ***"
+echo ""
+npm install -g grunt
+check_and_exit $? GRUNT
+
+echo ""
+echo "*** Gulp ***"
+echo ""
+npm install -g gulp
+check_and_exit $? GULP
+
+echo ""
+echo "*** Bower ***"
+echo ""
+npm install -g bower
+check_and_exit $? BOWER
+
 echo ""
 echo "****** BUILD ******"
 echo ""
-
-echo "*** Base directory: $BASE"
 
 # as this may be an inherited image check for prebuild and if it exists execute it
 if [ -e /exec/prebuild.sh ]; then
@@ -49,7 +93,6 @@ if [ -e /exec/prebuild.sh ]; then
 fi
 
 # run package managers
-cd $BASE
 if [ -e $BASE/package.json ]; then
     header "NPM INSTALL"
     npm install

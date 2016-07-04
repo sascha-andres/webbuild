@@ -11,4 +11,4 @@ echo ""
 echo "*** Start the build ***"
 echo ""
 
-docker run -v $PWD/src:/src -v $PWD/app:/app -t briefbote/webbuild:latest
+docker run -v $PWD/src:/src -v $PWD/app:/app -t briefbote/webbuild:55
