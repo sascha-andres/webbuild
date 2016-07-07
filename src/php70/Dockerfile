@@ -24,18 +24,8 @@ RUN mkdir /src && \
     apt-get install -y wget git unzip && \
     apt-get autoremove -y && \
     apt-get clean && \
-    echo "\n*** node ***\n" && \
-    mkdir -p /tmp/node && \
-    wget https://deb.nodesource.com/setup_4.x --output-document /tmp/node/setup_4.x && \
-    chmod 700 /tmp/node/setup_4.x && \
-    /tmp/node/setup_4.x && \
-    apt-get install -y nodejs build-essential && \
-    echo "\n*** grunt ***\n" && \
-    npm install -g grunt && \
-    echo "\n*** Gulp ***\n" && \
-    npm install -g gulp && \
-    echo "\n*** Bower ***\n" && \
-    npm install -g bower && \
+    echo "\n*** nvm ***\n" && \
+    wget -qO- https://raw.githubusercontent.com/creationix/nvm/v0.31.2/install.sh | bash && \
     echo "\n*** composer ***\n" && \
     php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" && \
 # Changes automatically, we can not use this

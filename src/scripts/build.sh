@@ -36,16 +36,14 @@ export NVM_DIR
 BASE=/src
 
 if [ -d /src/src ]; then
-    BASE /src/src
+    BASE=/src/src
 fi
 
 echo "*** Base directory: $BASE"
 
 cd $BASE
 
-echo ""
-echo "*** NODE and NODE based ***"
-echo ""
+header "NODE and NODE based"
 
 if [ -e $BASE/.nvmrc ]; then
     echo "*** Using .nvmrc"
@@ -60,30 +58,6 @@ else
     check_and_exit $? NVM_USE
 fi
 
-echo "*** NODE version: `node --version`"
-
-echo ""
-echo "*** grunt ***"
-echo ""
-npm install -g grunt
-check_and_exit $? GRUNT
-
-echo ""
-echo "*** Gulp ***"
-echo ""
-npm install -g gulp
-check_and_exit $? GULP
-
-echo ""
-echo "*** Bower ***"
-echo ""
-npm install -g bower
-check_and_exit $? BOWER
-
-echo ""
-echo "****** BUILD ******"
-echo ""
-
 # as this may be an inherited image check for prebuild and if it exists execute it
 if [ -e /exec/prebuild.sh ]; then
     header "PREBBUILD"
@@ -91,6 +65,22 @@ if [ -e /exec/prebuild.sh ]; then
     /exec/prebuild.sh $BASE
     check_and_exit $? prebuild
 fi
+
+echo "*** NODE version: `node --version`"
+
+header "grunt"
+npm install -g grunt
+check_and_exit $? GRUNT
+
+header "gulp"
+npm install -g gulp
+check_and_exit $? GULP
+
+header "bower"
+npm install -g bower
+check_and_exit $? BOWER
+
+header "BUILD"
 
 # run package managers
 if [ -e $BASE/package.json ]; then
