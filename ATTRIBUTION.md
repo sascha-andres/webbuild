@@ -1,0 +1,1 @@
+License markdown taken from https://github.com/IQAndreas/markdown-licenses
