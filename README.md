@@ -80,3 +80,9 @@ that actually does nothing more then to copy the `index.html` using a custom.sh 
 Code is open source under the Apache 2.0 License. You can obtain it at https://github.com/sascha-andres/webbuild
 
 If you want to contribute feel free to open an issue
+
+## History ##
+
+### 20160707 ###
+
+Using nvm for node installation
