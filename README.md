@@ -87,6 +87,10 @@ https://hub.docker.com/r/briefbote/webbuild/
 
 ## History ##
 
+### 20160717 ###
+
+Links updated
+
 ### 20160707 ###
 
 Using nvm for node installation
