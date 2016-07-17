@@ -16,6 +16,7 @@ FROM briefbote/webbuild:55
 MAINTAINER Sascha Andres <sascha.andres@outlook.com>
 
 RUN echo "\n*** Ruby ***\n" && \
+    apt-get update -y && \
     apt-get install -y ruby ruby-dev libffi-dev make
 
 RUN gem install rubygems-update && \

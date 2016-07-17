@@ -12,10 +12,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM biefbote/webbuild:70
+FROM briefbote/webbuild:70
 MAINTAINER Sascha Andres <sascha.andres@outlook.com>
 
 RUN echo "\n*** Ruby ***\n" && \
+    apt-get update -y && \
     apt-get install -y ruby ruby-dev libffi-dev make
 
 RUN  gem install rubygems-update && \

@@ -22,6 +22,8 @@ The `latest` tag points to the PHP7.0 version
 
 Build expects `/src` containing the source code and `/app` containing the release after all build steps have run.
 
+Git is installed within the container.
+
 ### RUBY ###
 
 If you need RUBY with `breakpoint` and `sass` please use the `-ruby` tags:
@@ -89,6 +91,11 @@ If you want to contribute feel free to open an issue
 https://hub.docker.com/r/briefbote/webbuild/
 
 ## History ##
+
+### 20160717.2 ###
+
+* Seperate image with ruby support
+* Included git in README 
 
 ### 20160717 ###
 
