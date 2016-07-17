@@ -18,6 +18,8 @@ php70:
 	docker build -f php70-ruby/Dockerfile -t briefbote/webbuild:70-ruby .
 	docker push briefbote/webbuild:70-ruby
 
+all:	php55 php56 php70
+
 clean:
 	-docker rmi -f briefbote/webbuild:55
 	-docker rmi -f briefbote/webbuild:56
