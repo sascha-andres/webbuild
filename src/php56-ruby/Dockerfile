@@ -12,14 +12,14 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM php:5.5-apache
+FROM php:5.6-apache
 MAINTAINER Sascha Andres <sascha.andres@outlook.com>
 
 RUN mkdir /src && \
     mkdir /app && \
     mkdir /exec && \
     echo "\n**** Updating system ***\n" && \
-    apt-get update -y && \
+    apt-get update && \
     apt-get dist-upgrade -y && \
     apt-get install -y wget git unzip && \
     apt-get autoremove -y && \
@@ -33,6 +33,14 @@ RUN mkdir /src && \
 #    php -r "if (hash_file('SHA384', 'composer-setup.php') === '070854512ef404f16bac87071a6db9fd9721da1684cd4589b1196c3faf71b9a2682e2311b36a5079825e155ac7ce150d') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;" && \
     php composer-setup.php && \
     php -r "unlink('composer-setup.php');" && \
+    echo "\n*** Ruby ***\n" && \
+    apt-get install -y ruby ruby-dev libffi-dev make
+
+RUN  gem install rubygems-update && \
+    update_rubygems && \
+    gem install sass --no-document && \
+    gem install compass --no-document && \
+    gem install breakpoint --no-document && \
     echo "\n*** Cleanup ***\n" && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 

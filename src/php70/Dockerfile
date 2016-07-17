@@ -34,13 +34,6 @@ RUN mkdir /src && \
     php composer-setup.php && \
     php -r "unlink('composer-setup.php');" && \
     echo "\n*** Ruby ***\n" && \
-    apt-get install -y ruby ruby-dev libffi-dev make
-
-RUN  gem install rubygems-update && \
-    update_rubygems && \
-    gem install sass --no-document && \
-    gem install compass --no-document && \
-    gem install breakpoint --no-document && \
     echo "\n*** Cleanup ***\n" && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
