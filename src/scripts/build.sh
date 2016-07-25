@@ -68,15 +68,19 @@ fi
 
 echo "*** NODE version: `node --version`"
 
-header "grunt"
+header "Updating npm"
+npm install -g npm
+check_and_exit $? npm_update
+
+header "Installing grunt"
 npm install -g grunt
 check_and_exit $? GRUNT
 
-header "gulp"
+header "Installing gulp"
 npm install -g gulp
 check_and_exit $? GULP
 
-header "bower"
+header "Installing bower"
 npm install -g bower
 check_and_exit $? BOWER
 
@@ -84,39 +88,39 @@ header "BUILD"
 
 # run package managers
 if [ -e $BASE/package.json ]; then
-    header "NPM INSTALL"
+    header "RUNNING NPM INSTALL"
     npm install
     check_and_exit $? npm_install
 fi
 
 if [ -e $BASE/bower.json ]; then
-    header "BOWER"
+    header "Running BOWER"
     bower install --allow-root --config.interactive=false
     check_and_exit $? bower
 fi
 
 if [ -e $BASE/composer.json ]; then
-    header "COMPOSER"
+    header "Running COMPOSER"
     composer install --no-dev --prefer-dist --optimize-autoloader
     check_and_exit $? composer
 fi
 
 # run build systems
 if [ -e $BASE/Gruntfile ]; then
-    header "GRUNT"
+    header "Running GRUNT"
     grunt
     check_and_exit $? grunt
 fi
 
 if [ -e $BASE/gulpfile.js ]; then
-    header "GULP"
+    header "Running GULP"
     gulp
     check_and_exit $? gulp
 fi
 
 # run custom.sh if included in source
 if [ -e /src/custom.sh ]; then
-    header "CUSTOM"
+    header "Running CUSTOM"
     chmod 700 /src/custom.sh
     /src/custom.sh
     check_and_exit $? custom
@@ -124,7 +128,7 @@ fi
 
 # as this may be an inherited image check for postbuild an if it exits execute it
 if [ -e /exec/postbuild.sh ]; then
-    header "POSTBUILD"
+    header "Running POSTBUILD"
     chmod 700 /exec/psotbuild.sh
     /exec/postbuild.sh
     check_and_exit $? postbuild
