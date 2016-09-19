@@ -90,6 +90,11 @@ If you want to contribute feel free to open an issue
 
 https://hub.docker.com/r/briefbote/webbuild/
 
+## Help
+
+Feel free to contact me by creating an issue on https://github.com/sascha-andres/webbuild/issues.
+You can connect to me using Twitter at https://twitter.com/livingit_de.
+
 ## History ##
 
 ### 20160717.2 ###
