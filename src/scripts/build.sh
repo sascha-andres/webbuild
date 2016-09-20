@@ -72,17 +72,23 @@ header "Updating npm"
 npm install -g npm
 check_and_exit $? npm_update
 
-header "Installing grunt"
-npm install -g grunt
-check_and_exit $? GRUNT
+if [ "x" == "x$NOGRUNT" ]; then
+  header "Installing grunt"
+  npm install -g grunt
+  check_and_exit $? GRUNT
+fi
 
-header "Installing gulp"
-npm install -g gulp
-check_and_exit $? GULP
+if [ "x" == "x$NOGULP" ]; then
+  header "Installing gulp"
+  npm install -g gulp
+  check_and_exit $? GULP
+fi
 
-header "Installing bower"
-npm install -g bower
-check_and_exit $? BOWER
+if [ "x" == "x$NOBOWER" ]; then
+  header "Installing bower"
+  npm install -g bower
+  check_and_exit $? BOWER
+fi 
 
 header "BUILD"
 
@@ -93,29 +99,37 @@ if [ -e $BASE/package.json ]; then
     check_and_exit $? npm_install
 fi
 
-if [ -e $BASE/bower.json ]; then
-    header "Running BOWER"
-    bower install --allow-root --config.interactive=false
-    check_and_exit $? bower
+if [ "x" == "x$NOBOWER" ]; then
+  if [ -e $BASE/bower.json ]; then
+      header "Running BOWER"
+      bower install --allow-root --config.interactive=false
+      check_and_exit $? bower
+  fi
 fi
 
-if [ -e $BASE/composer.json ]; then
-    header "Running COMPOSER"
-    composer install --no-dev --prefer-dist --optimize-autoloader
-    check_and_exit $? composer
+if [ "x" == "x$NOCOMPOSER" ]; then
+  if [ -e $BASE/composer.json ]; then
+      header "Running COMPOSER"
+      composer install --no-dev --prefer-dist --optimize-autoloader
+      check_and_exit $? composer
+  fi
 fi
 
 # run build systems
-if [ -e $BASE/Gruntfile ]; then
-    header "Running GRUNT"
-    grunt
-    check_and_exit $? grunt
+if [ "x" == "x$NOGRUNT" ]; then
+  if [ -e $BASE/Gruntfile ]; then
+      header "Running GRUNT"
+      grunt
+      check_and_exit $? grunt
+  fi
 fi
 
-if [ -e $BASE/gulpfile.js ]; then
-    header "Running GULP"
-    gulp
-    check_and_exit $? gulp
+if [ "x" == "x$NOGULP" ]; then
+  if [ -e $BASE/gulpfile.js ]; then
+      header "Running GULP"
+      gulp
+      check_and_exit $? gulp
+  fi
 fi
 
 # run custom.sh if included in source

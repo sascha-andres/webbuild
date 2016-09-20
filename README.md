@@ -36,6 +36,21 @@ If you need RUBY with `breakpoint` and `sass` please use the `-ruby` tags:
 
 NODEJS will be installed using nvm. It is respecting .nvmrc. After that, grunt, gulp and bower are installed
 
+### Customization
+
+You may want to turn off build tools. To do this you need to pass specific environment variables ( as in not empty ).
+
+|Variable|Build tool|
+|---|---|
+|NOGULP|gulp|
+|NOGRUNT|grunt|
+|NOBOWER|bower|
+|NOCOMPOSER|composer|
+
+Setting such a variable will disable installation ( except of composer which is always installed ) and execution.
+
+Doing this will speed up the build process.
+
 ## ONBUILD ##
 
 There are two ONBUILD trigger. They copy `prebuild.sh` respectively `postbuild.sh` into the newly image. Therefore 
@@ -97,15 +112,9 @@ You can connect to me using Twitter at https://twitter.com/livingit_de.
 
 ## History ##
 
-### 20160717.2 ###
-
-* Seperate image with ruby support
-* Included git in README 
-
-### 20160717 ###
-
-Links updated
-
-### 20160707 ###
-
-Using nvm for node installation
+|Version|Author|Description|
+|---|---|---|
+|TBD|S. Andres|Allow disabling some build tools|
+|20160717.2|S. Andres|<ul><li>Seperate image with ruby support</li><li>Included git in README</li></ul>|
+|20160717|S. Andres|Links updated|
+|20160707|S. Andres|Using nvm for node installation|
