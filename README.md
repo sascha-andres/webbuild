@@ -114,7 +114,7 @@ You can connect to me using Twitter at https://twitter.com/livingit_de.
 
 |Version|Author|Description|
 |---|---|---|
-|TBD|S. Andres|Allow disabling some build tools|
+|20160920|S. Andres|Allow disabling some build tools|
 |20160717.2|S. Andres|<ul><li>Seperate image with ruby support</li><li>Included git in README</li></ul>|
 |20160717|S. Andres|Links updated|
 |20160707|S. Andres|Using nvm for node installation|
