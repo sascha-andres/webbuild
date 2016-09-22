@@ -38,6 +38,8 @@ NODEJS will be installed using nvm. It is respecting .nvmrc. After that, grunt, 
 
 ### Customization
 
+#### Not required build tools
+
 You may want to turn off build tools. To do this you need to pass specific environment variables ( as in not empty ).
 
 |Variable|Build tool|
@@ -50,6 +52,10 @@ You may want to turn off build tools. To do this you need to pass specific envir
 Setting such a variable will disable installation ( except of composer which is always installed ) and execution.
 
 Doing this will speed up the build process.
+
+#### Custom base directory
+
+If your base directory follows not the convention use the environment variable `SETBASEDIR` to change it.
 
 ## ONBUILD ##
 
