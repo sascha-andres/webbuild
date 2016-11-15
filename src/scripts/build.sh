@@ -34,9 +34,12 @@ export NVM_DIR
 
 # Set variables for build run
 BASE=/src
-
-if [ -d /src/src ]; then
-    BASE=/src/src
+if [ "x" == "x$SETBASEDIR" ]; then
+  if [ -d /src/src ]; then
+      BASE=/src/src
+  fi
+else
+  BASE=$SETBASEDIR
 fi
 
 echo "*** Base directory: $BASE"
