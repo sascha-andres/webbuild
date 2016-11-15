@@ -24,6 +24,8 @@ Build expects `/src` containing the source code and `/app` containing the releas
 
 Git is installed within the container.
 
+The package build-essential is installed within the container.
+
 ### RUBY ###
 
 If you need RUBY with `breakpoint` and `sass` please use the `-ruby` tags:
