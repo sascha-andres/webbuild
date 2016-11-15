@@ -2,12 +2,12 @@ RUN mkdir /src && \
     mkdir /app && \
     mkdir /exec && \
     echo "\n**** Updating system ***\n" && \
-    apt-get update -y && \
-    apt-get dist-upgrade -y && \
-    apt-get install -q -y build-essentials && \
-    apt-get install -y wget git unzip && \
-    apt-get autoremove -y && \
-    apt-get clean && \
+    apt-get update -qq -y && \
+    apt-get dist-upgrade -qq -y && \
+    apt-get install -qq -y build-essential && \
+    apt-get install -qq -y wget git unzip && \
+    apt-get autoremove -qq -y && \
+    apt-get clean -qq && \
     echo "\n*** nvm ***\n" && \
     wget -qO- https://raw.githubusercontent.com/creationix/nvm/v0.31.2/install.sh | bash && \
     echo "\n*** composer ***\n" && \
