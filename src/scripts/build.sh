@@ -64,8 +64,7 @@ fi
 # as this may be an inherited image check for prebuild and if it exists execute it
 if [ -e /exec/prebuild.sh ]; then
     header "PREBBUILD"
-    chmod 700 /exec/prebuild.sh
-    /exec/prebuild.sh $BASE
+    /bin/bash /exec/prebuild.sh $BASE
     check_and_exit $? prebuild
 fi
 
@@ -146,8 +145,7 @@ fi
 # as this may be an inherited image check for postbuild an if it exits execute it
 if [ -e /exec/postbuild.sh ]; then
     header "Running POSTBUILD"
-    chmod 700 /exec/psotbuild.sh
-    /exec/postbuild.sh
+    /bin/bash /exec/postbuild.sh
     check_and_exit $? postbuild
 fi
 
