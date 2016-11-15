@@ -4,7 +4,6 @@ RUN mkdir /src && \
     echo "\n**** Updating system ***\n" && \
     apt-get update -qq -y && \
     apt-get dist-upgrade -qq -y && \
-    apt-get install -qq -y build-essential && \
     apt-get install -qq -y wget git unzip && \
     apt-get autoremove -qq -y && \
     apt-get clean -qq && \
