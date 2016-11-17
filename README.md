@@ -28,11 +28,7 @@ The package build-essential is installed within the container.
 
 ### RUBY ###
 
-If you need RUBY with `breakpoint` and `sass` please use the `-ruby` tags:
-
-* 55-ruby
-* 56-ruby
-* 70-ruby
+RUBY builds are now deprecated. Plase inherit from the image and install Ruby in a prebuild.sh.
 
 ## Execution ##
 
@@ -122,7 +118,10 @@ You can connect to me using Twitter at https://twitter.com/livingit_de.
 
 |Version|Author|Description|
 |---|---|---|
+|20161117|S. Andres|Calling prebuild.sh and postbuild.sh with `/bin/bash <script>`|
+|||Deactiasted ruby builds|
 |20160920|S. Andres|Allow disabling some build tools|
-|20160717.2|S. Andres|<ul><li>Seperate image with ruby support</li><li>Included git in README</li></ul>|
+|20160717.2|S. Andres|Separate image with ruby support|
+|||Included git in README|
 |20160717|S. Andres|Links updated|
 |20160707|S. Andres|Using nvm for node installation|
