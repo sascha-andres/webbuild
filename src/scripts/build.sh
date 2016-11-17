@@ -42,7 +42,7 @@ else
   BASE=$SETBASEDIR
 fi
 
-echo "*** Base directory: $BASE"
+echo "==> Base directory: $BASE"
 
 cd $BASE
 
@@ -55,41 +55,41 @@ if [ -e $BASE/.nvmrc ]; then
     nvm use
     check_and_exit $? NVM_USE
 else
-    nvm install v4.4
+    nvm install 4
     check_and_exit $? NVM_INSTALL
-    nvm use v4.4
+    nvm use 4
     check_and_exit $? NVM_USE
 fi
+
+
+echo "*** NODE version: `node --version`"
 
 # as this may be an inherited image check for prebuild and if it exists execute it
 if [ -e /exec/prebuild.sh ]; then
     header "PREBBUILD"
-    chmod 700 /exec/prebuild.sh
-    /exec/prebuild.sh $BASE
+    /bin/bash /exec/prebuild.sh $BASE
     check_and_exit $? prebuild
 fi
 
-echo "*** NODE version: `node --version`"
-
 header "Updating npm"
-npm install -g npm
+npm install -g npm --no-progress
 check_and_exit $? npm_update
 
 if [ "x" == "x$NOGRUNT" ]; then
   header "Installing grunt"
-  npm install -g grunt
+  npm install -g grunt --no-progress
   check_and_exit $? GRUNT
 fi
 
 if [ "x" == "x$NOGULP" ]; then
   header "Installing gulp"
-  npm install -g gulp
+  npm install -g gulp --no-progress
   check_and_exit $? GULP
 fi
 
 if [ "x" == "x$NOBOWER" ]; then
   header "Installing bower"
-  npm install -g bower
+  npm install -g bower --no-progress
   check_and_exit $? BOWER
 fi 
 
@@ -98,7 +98,7 @@ header "BUILD"
 # run package managers
 if [ -e $BASE/package.json ]; then
     header "RUNNING NPM INSTALL"
-    npm install
+    npm install --no-progress
     check_and_exit $? npm_install
 fi
 
@@ -146,8 +146,7 @@ fi
 # as this may be an inherited image check for postbuild an if it exits execute it
 if [ -e /exec/postbuild.sh ]; then
     header "Running POSTBUILD"
-    chmod 700 /exec/psotbuild.sh
-    /exec/postbuild.sh
+    /bin/bash /exec/postbuild.sh
     check_and_exit $? postbuild
 fi
 
