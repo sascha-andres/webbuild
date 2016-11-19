@@ -136,10 +136,9 @@ if [ "x" == "x$NOGULP" ]; then
 fi
 
 # run custom.sh if included in source
-if [ -e /src/custom.sh ]; then
+if [ -e $BASE/custom.sh ]; then
     header "Running CUSTOM"
-    chmod 700 /src/custom.sh
-    /src/custom.sh
+    /bin/bash $BASE/custom.sh
     check_and_exit $? custom
 fi
 
@@ -153,14 +152,14 @@ fi
 # check for empty /app dir
 if [ ! "$(ls -A /app)" ]; then
     header "COPY"
-    if [ -d /src/build ]; then
+    if [ -d $BASE/build ]; then
         header "build/"
-        cp -R /src/build/* /app/
+        cp -R $BASE/build/* /app/
         check_and_exit $? build_app
     else
-        if [ -d /src/release ]; then
+        if [ -d $BASE/release ]; then
             header "release/"
-            cp -R /src/release/* /app/
+            cp -R $BASE/release/* /app/
             check_and_exit $? release_app
         fi
     fi
