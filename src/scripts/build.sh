@@ -81,6 +81,13 @@ if [ -e /exec/prebuild.sh ]; then
   check_and_exit $? prebuild
 fi
 
+# Running mounted prebuild
+if [ -e $BASE/.webbuild/prebuild.sh ]; then
+  header ".webbuild PREBBUILD"
+  /bin/bash $BASE/.webbuild/prebuild.sh $BASE
+  check_and_exit $? prebuild_mounted
+fi
+
 header "Updating npm"
 npm install -g npm --no-progress
 check_and_exit $? npm_update
@@ -150,6 +157,13 @@ if [ -e $BASE/custom.sh ]; then
   header "Running CUSTOM"
   /bin/bash $BASE/custom.sh
   check_and_exit $? custom
+fi
+
+# Running mounted prebuild
+if [ -e $BASE/.webbuild/postbuild.sh ]; then
+  header ".webbuild POSTBUILD"
+  /bin/bash $BASE/.webbuild/postbuild.sh $BASE
+  check_and_exit $? postbuild_mounted
 fi
 
 # as this may be an inherited image check for postbuild an if it exits execute it
