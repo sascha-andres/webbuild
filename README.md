@@ -116,12 +116,4 @@ You can connect to me using Twitter at https://twitter.com/livingit_de.
 
 ## History ##
 
-|Version|Author|Description|
-|---|---|---|
-|20161117|S. Andres|Calling prebuild.sh and postbuild.sh with `/bin/bash <script>`|
-|||Deactiasted ruby builds|
-|20160920|S. Andres|Allow disabling some build tools|
-|20160717.2|S. Andres|Separate image with ruby support|
-|||Included git in README|
-|20160717|S. Andres|Links updated|
-|20160707|S. Andres|Using nvm for node installation|
+History is now edited on GitHub WIKI: https://github.com/sascha-andres/webbuild/wiki/History
