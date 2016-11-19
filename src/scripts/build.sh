@@ -180,10 +180,17 @@ if [ 1 == $RUNGULP ]; then
 fi
 
 # run custom.sh if included in source
-if [ -e $BASE/custom.sh ]; then
+if [ -e $BASE/.webbuild/custom.sh ]; then
   header "Running CUSTOM"
-  /bin/bash $BASE/custom.sh
+  /bin/bash $BASE/.webbuild/custom.sh
   check_and_exit $? custom
+else
+  if [ -e $BASE/custom.sh ]; then
+    header "Running CUSTOM"
+    echo "!!$BASE/custom.sh is deprecated. Use $BASE/.webbuild/custom.sh instead"
+    /bin/bash $BASE/custom.sh
+    check_and_exit $? custom
+  fi
 fi
 
 # Running mounted prebuild
