@@ -52,19 +52,19 @@ echo "==> Base directory: $BASE"
 cd $BASE
 
 # Look at environment variables for build tools
-if [ "x" == "x$NOGRUNT" ]; then
+if [ "x" != "x$NOGRUNT" ]; then
   echo "!!NOGRUNT environment variable is deprecated. Use $BASE/.webbuild/variables.sh"
   RUNGRUNT=0
 fi
-if [ "x" == "x$NOGULP" ]; then
+if [ "x" != "x$NOGULP" ]; then
   echo "!!NOGULP environment variable is deprecated. Use $BASE/.webbuild/variables.sh"
   RUNGULP=0
 fi
-if [ "x" == "x$NOBOWER" ]; then
+if [ "x" != "x$NOBOWER" ]; then
   echo "!!NOBOWER environment variable is deprecated. Use $BASE/.webbuild/variables.sh"
   RUNBOWER=0
 fi
-if [ "x" == "x$NOCOMPOSER" ]; then
+if [ "x" != "x$NOCOMPOSER" ]; then
   echo "!!NOCOMPOSER environment variable is deprecated. Use $BASE/.webbuild/variables.sh"
   RUNCOMPOSER=0
 fi
@@ -78,19 +78,19 @@ header "NODE and NODE based"
 
 if [ -e $BASE/.webbuild/.nvmrc ]; then
   echo "*** Using .nvmrc"
+  cd $BASE/.webbuild
   nvm install
   check_and_exit $? NVM_USE
   nvm use
   check_and_exit $? NVM_USE
+  cd $BASE
 else
   if [ -e $BASE/.nvmrc ]; then
     echo "!! $BASE/.nvmrc is deprecated. Use $BASE/.webbuild/.nvmrc !!"
-    cd $BASE/.webbuild
     nvm install
     check_and_exit $? NVM_USE
     nvm use
     check_and_exit $? NVM_USE
-    cd $BASE
   else
     nvm install 4
     check_and_exit $? NVM_INSTALL
