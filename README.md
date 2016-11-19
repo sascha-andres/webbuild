@@ -38,7 +38,16 @@ NODEJS will be installed using nvm. It is respecting .nvmrc. After that, grunt, 
 
 #### Not required build tools
 
-You may want to turn off build tools. To do this you need to pass specific environment variables ( as in not empty ).
+You may want to turn off build tools. To do this you need to create a .webbuild/variables.sh file in the base directory. There you can set the following variables:
+
+|Variable|Build tool|Value to turn off|
+|---|---|---|
+|RUNULP|gulp|!= 1|
+|RUNGRUNT|grunt|!= 1|
+|RUNBOWER|bower|!= 1|
+|RUNCOMPOSER|composer|!= 1|
+
+Earlier versions allowed disabling by passing environment variables. Those environment variables are deprecated and will be disabled in the future.
 
 |Variable|Build tool|
 |---|---|
@@ -94,7 +103,11 @@ Then you can run the build like this:
 
     docker run -t briefbote/webbuild:latest -v $PWD/src:/src -v $PWD/app:/app
 
-A very simplistic sample of it is in the `test` subfolder of this repository (note that `test/app/` is in the `.gitignore` file).
+### Samples
+
+#### simple
+
+A very simplistic sample of it is in the `samples/simple` subfolder of this repository (note that `test/app/` is in the `.gitignore` file).
 
 To run the sample change to the test directory and run `run.sh`. It (re)creates the app subfolder ands starts a build
 that actually does nothing more then to copy the `index.html` using a custom.sh into the `/app` folder

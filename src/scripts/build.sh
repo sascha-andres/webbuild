@@ -27,6 +27,11 @@ function header {
     echo ""
 }
 
+RUNGRUNT=1
+RUNGULP=1
+RUNBOWER=1
+RUNCOMPOSER=1
+
 # NVM
 NVM_DIR=/root/.nvm
 export NVM_DIR
@@ -45,6 +50,29 @@ fi
 echo "==> Base directory: $BASE"
 
 cd $BASE
+
+# Look at environment variables for build tools
+if [ "x" == "x$NOGRUNT" ]; then
+  echo "!!NOGRUNT environment variable is deprecated. Use $BASE/.webbuild/variables.sh"
+  RUNGRUNT=0
+fi
+if [ "x" == "x$NOGULP" ]; then
+  echo "!!NOGULP environment variable is deprecated. Use $BASE/.webbuild/variables.sh"
+  RUNGULP=0
+fi
+if [ "x" == "x$NOBOWER" ]; then
+  echo "!!NOBOWER environment variable is deprecated. Use $BASE/.webbuild/variables.sh"
+  RUNBOWER=0
+fi
+if [ "x" == "x$NOCOMPOSER" ]; then
+  echo "!!NOCOMPOSER environment variable is deprecated. Use $BASE/.webbuild/variables.sh"
+  RUNCOMPOSER=0
+fi
+
+if [ -e $BASE/.webbuild/variables.sh ]; then
+  header "variables.sh"
+  . $BASE/.webbuild/variables.sh
+fi
 
 header "NODE and NODE based"
 
@@ -71,7 +99,6 @@ else
   fi
 fi
 
-
 echo "*** NODE version: `node --version`"
 
 # as this may be an inherited image check for prebuild and if it exists execute it
@@ -92,19 +119,19 @@ header "Updating npm"
 npm install -g npm --no-progress
 check_and_exit $? npm_update
 
-if [ "x" == "x$NOGRUNT" ]; then
+if [ 1 == $RUNGRUNT ]; then
   header "Installing grunt"
   npm install -g grunt --no-progress
   check_and_exit $? GRUNT
 fi
 
-if [ "x" == "x$NOGULP" ]; then
+if [ 1 == $RUNGULP ]; then
   header "Installing gulp"
   npm install -g gulp --no-progress
   check_and_exit $? GULP
 fi
 
-if [ "x" == "x$NOBOWER" ]; then
+if [ 1 == $RUNBOWER ]; then
   header "Installing bower"
   npm install -g bower --no-progress
   check_and_exit $? BOWER
@@ -119,7 +146,7 @@ if [ -e $BASE/package.json ]; then
   check_and_exit $? npm_install
 fi
 
-if [ "x" == "x$NOBOWER" ]; then
+if [ 1 == $RUNBOWER ]; then
   if [ -e $BASE/bower.json ]; then
     header "Running BOWER"
     bower install --allow-root --config.interactive=false
@@ -127,7 +154,7 @@ if [ "x" == "x$NOBOWER" ]; then
   fi
 fi
 
-if [ "x" == "x$NOCOMPOSER" ]; then
+if [ 1 == $RUNCOMPOSER ]; then
   if [ -e $BASE/composer.json ]; then
     header "Running COMPOSER"
     composer install --no-dev --prefer-dist --optimize-autoloader
@@ -136,7 +163,7 @@ if [ "x" == "x$NOCOMPOSER" ]; then
 fi
 
 # run build systems
-if [ "x" == "x$NOGRUNT" ]; then
+if [ 1 == $RUNGRUNT ]; then
   if [ -e $BASE/Gruntfile ]; then
     header "Running GRUNT"
     grunt
@@ -144,7 +171,7 @@ if [ "x" == "x$NOGRUNT" ]; then
   fi
 fi
 
-if [ "x" == "x$NOGULP" ]; then
+if [ 1 == $RUNGULP ]; then
   if [ -e $BASE/gulpfile.js ]; then
     header "Running GULP"
     gulp
