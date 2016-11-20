@@ -1,7 +1,7 @@
 RUN mkdir /src && \
     mkdir /app && \
     mkdir /exec && \
-    echo "\n**** Updating system ***\n" && \
+    echo "\n*** Updating system ***\n" && \
     apt-get update -qq -y && \
     apt-get dist-upgrade -qq -y && \
     apt-get install -qq -y wget git unzip && \
