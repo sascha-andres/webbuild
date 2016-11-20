@@ -17,6 +17,7 @@
 function check_and_exit {
     if [ $1 -gt 0 ]; then
         echo "Build step failed ($2). See log"
+        echo "*** For any questions or issues go to https://github.com/sascha-andres/webbuild"
         exit $1
     fi
 }
@@ -225,7 +226,9 @@ fi
 
 if [ ! "$(ls -A /app)" ]; then
   echo "*** NO BUILD RESULT"
+  echo "*** For any questions or issues go to https://github.com/sascha-andres/webbuild"
   exit 1
 else
+  echo "*** For any questions or issues go to https://github.com/sascha-andres/webbuild"
   exit 0
 fi
