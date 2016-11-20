@@ -38,7 +38,16 @@ NODEJS will be installed using nvm. It is respecting .nvmrc. After that, grunt, 
 
 #### Not required build tools
 
-You may want to turn off build tools. To do this you need to pass specific environment variables ( as in not empty ).
+You may want to turn off build tools. To do this you need to create a .webbuild/variables.sh file in the base directory. There you can set the following variables:
+
+|Variable|Build tool|Value to turn off|
+|---|---|---|
+|RUNULP|gulp|!= 1|
+|RUNGRUNT|grunt|!= 1|
+|RUNBOWER|bower|!= 1|
+|RUNCOMPOSER|composer|!= 1|
+
+Earlier versions allowed disabling by passing environment variables. Those environment variables are deprecated and will be disabled in the future.
 
 |Variable|Build tool|
 |---|---|
@@ -50,10 +59,6 @@ You may want to turn off build tools. To do this you need to pass specific envir
 Setting such a variable will disable installation ( except of composer which is always installed ) and execution.
 
 Doing this will speed up the build process.
-
-#### Custom base directory
-
-If your base directory follows not the convention use the environment variable `SETBASEDIR` to change it.
 
 ## ONBUILD ##
 
@@ -68,18 +73,28 @@ the following Dockerfile will allow you add standard customizations according to
 The base directory ( the directory where the entrypoint runs the build steps ) is `/src` except when
 `/src/src` exists
 
+### Custom base directory
+
+If your base directory follows not the convention use the environment variable `SETBASEDIR` to change it.
+
 ## Build steps ##
 
-1. `/exec/prebuild.sh` if it exists
-2. `npm install` if `$BASE/package.json` exists
-3. `bower` if `$BASE/bower.json` exists
-4. `composer` without dev dependencies if `$BASE/composer.json` exists
-5. `grunt` if `$BASE/Gruntfile` exists
-6. `gulp` if `$BASE/gulpfile.js` exists
-7. `/src/custom.sh` if it exists
-8. `/exec/postbuild.sh` if it exists
-9. Use `/src/build` as `/app` if `/app` is empty
-10. Use `/src/release` as `/app` if `/app` is empty
+1. Loading `$BASEDIR/.webbuild/variables.sh` if it exists
+2. `nvm install 4` or `nvm install` in .webbuild/ is .nvmrc exists there
+3. `/exec/prebuild.sh` if it exists
+4. `$BASEDIR/.webbuild/prebuild.sh` if it exists
+5. `npm install` if `$BASE/package.json` exists
+6. `bower` if `$BASE/bower.json` exists
+7. `composer` without dev dependencies if `$BASE/composer.json` exists
+8. `grunt` if `$BASE/Gruntfile` exists
+9. `gulp` if `$BASE/gulpfile.js` exists
+10. `$BASE/.webbuild/custom.sh` if it exists, fallback `$BASE/custom.sh` (deprecated)
+11. `$BASEDIR/.webbuild/post4. `$BASEDIR/.webbuild/prebuild.sh if it exists`build.sh` if it exists
+12. `/exec/postbuild.sh` if it exists
+13. Use `/src/build` as `/app` if `/app` is empty
+14. Use `/src/release` as `/app` if `/app` is empty
+
+Currently a `$BASE/.nvmrc` is still respected.
 
 ## Return codes ##
 
@@ -94,7 +109,11 @@ Then you can run the build like this:
 
     docker run -t briefbote/webbuild:latest -v $PWD/src:/src -v $PWD/app:/app
 
-A very simplistic sample of it is in the `test` subfolder of this repository (note that `test/app/` is in the `.gitignore` file).
+### Samples
+
+#### simple
+
+A very simplistic sample of it is in the `samples/simple` subfolder of this repository (note that `test/app/` is in the `.gitignore` file).
 
 To run the sample change to the test directory and run `run.sh`. It (re)creates the app subfolder ands starts a build
 that actually does nothing more then to copy the `index.html` using a custom.sh into the `/app` folder
@@ -116,12 +135,4 @@ You can connect to me using Twitter at https://twitter.com/livingit_de.
 
 ## History ##
 
-|Version|Author|Description|
-|---|---|---|
-|20161117|S. Andres|Calling prebuild.sh and postbuild.sh with `/bin/bash <script>`|
-|||Deactiasted ruby builds|
-|20160920|S. Andres|Allow disabling some build tools|
-|20160717.2|S. Andres|Separate image with ruby support|
-|||Included git in README|
-|20160717|S. Andres|Links updated|
-|20160707|S. Andres|Using nvm for node installation|
+History is now edited on GitHub WIKI: https://github.com/sascha-andres/webbuild/wiki/History
