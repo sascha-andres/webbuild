@@ -60,10 +60,6 @@ Setting such a variable will disable installation ( except of composer which is 
 
 Doing this will speed up the build process.
 
-#### Custom base directory
-
-If your base directory follows not the convention use the environment variable `SETBASEDIR` to change it.
-
 ## ONBUILD ##
 
 There are two ONBUILD trigger. They copy `prebuild.sh` respectively `postbuild.sh` into the newly image. Therefore 
@@ -77,18 +73,28 @@ the following Dockerfile will allow you add standard customizations according to
 The base directory ( the directory where the entrypoint runs the build steps ) is `/src` except when
 `/src/src` exists
 
+### Custom base directory
+
+If your base directory follows not the convention use the environment variable `SETBASEDIR` to change it.
+
 ## Build steps ##
 
-1. `/exec/prebuild.sh` if it exists
-2. `npm install` if `$BASE/package.json` exists
-3. `bower` if `$BASE/bower.json` exists
-4. `composer` without dev dependencies if `$BASE/composer.json` exists
-5. `grunt` if `$BASE/Gruntfile` exists
-6. `gulp` if `$BASE/gulpfile.js` exists
-7. `/src/custom.sh` if it exists
-8. `/exec/postbuild.sh` if it exists
-9. Use `/src/build` as `/app` if `/app` is empty
-10. Use `/src/release` as `/app` if `/app` is empty
+1. Loading `$BASEDIR/.webbuild/variables.sh` if it exists
+2. `nvm install 4` or `nvm install` in .webbuild/ is .nvmrc exists there
+3. `/exec/prebuild.sh` if it exists
+4. `$BASEDIR/.webbuild/prebuild.sh` if it exists
+5. `npm install` if `$BASE/package.json` exists
+6. `bower` if `$BASE/bower.json` exists
+7. `composer` without dev dependencies if `$BASE/composer.json` exists
+8. `grunt` if `$BASE/Gruntfile` exists
+9. `gulp` if `$BASE/gulpfile.js` exists
+10. `$BASE/.webbuild/custom.sh` if it exists, fallback `$BASE/custom.sh` (deprecated)
+11. `$BASEDIR/.webbuild/post4. `$BASEDIR/.webbuild/prebuild.sh if it exists`build.sh` if it exists
+12. `/exec/postbuild.sh` if it exists
+13. Use `/src/build` as `/app` if `/app` is empty
+14. Use `/src/release` as `/app` if `/app` is empty
+
+Currently a `$BASE/.nvmrc` is still respected.
 
 ## Return codes ##
 
