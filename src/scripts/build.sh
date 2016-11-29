@@ -100,7 +100,7 @@ else
   fi
 fi
 
-echo "*** NODE version: `node --version`"
+echo "==> NODE version: `node --version`"
 
 # as this may be an inherited image check for prebuild and if it exists execute it
 if [ -e /exec/prebuild.sh ]; then
@@ -119,6 +119,8 @@ fi
 header "Updating npm"
 npm install -g npm --no-progress
 check_and_exit $? npm_update
+
+echo "==> NPM version: `npm --version`"
 
 if [ 1 == $RUNGRUNT ]; then
   header "Installing grunt"
