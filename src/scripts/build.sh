@@ -32,6 +32,7 @@ RUNGRUNT=1
 RUNGULP=1
 RUNBOWER=1
 RUNCOMPOSER=1
+USEYARN=0
 
 # NVM
 NVM_DIR=/root/.nvm
@@ -120,6 +121,11 @@ header "Updating npm"
 npm install -g npm --no-progress
 check_and_exit $? npm_update
 
+if [ 1 == $USEYARN ]; then
+  header "Installing yarn"
+  npm install -g yarn --no-progress
+fi
+
 echo "==> NPM version: `npm --version`"
 
 if [ 1 == $RUNGRUNT ]; then
@@ -144,9 +150,15 @@ header "BUILD"
 
 # run package managers
 if [ -e $BASE/package.json ]; then
-  header "RUNNING NPM INSTALL"
-  npm install --no-progress
-  check_and_exit $? npm_install
+  if [ 1 == $USEYARN ]; then
+    header "RUNNING YARN INSTALL"
+    yarn install
+    check_and_exit $? yarn_install
+  else
+    header "RUNNING NPM INSTALL"
+    npm install --no-progress
+    check_and_exit $? npm_install
+  fi
 fi
 
 if [ 1 == $RUNBOWER ]; then
