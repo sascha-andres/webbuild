@@ -76,6 +76,11 @@ if [ -e $BASE/.webbuild/variables.sh ]; then
   . $BASE/.webbuild/variables.sh
 fi
 
+PKG_MANAGER="npm"
+if [ 1 == $USEYARN ]; then
+  PKG_MANAGER="yarn"
+fi
+
 header "NODE and NODE based"
 
 if [ -e $BASE/.webbuild/.nvmrc ]; then
@@ -118,26 +123,26 @@ if [ -e $BASE/.webbuild/prebuild.sh ]; then
 fi
 
 header "Updating npm"
-npm install -g npm --no-progress
+$PKG_MANAGER install -g npm --no-progress
 check_and_exit $? npm_update
 
 echo "==> NPM version: `npm --version`"
 
 if [ 1 == $RUNGRUNT ]; then
   header "Installing grunt"
-  npm install -g grunt --no-progress
+  $PKG_MANAGER install -g grunt --no-progress
   check_and_exit $? GRUNT
 fi
 
 if [ 1 == $RUNGULP ]; then
   header "Installing gulp"
-  npm install -g gulp --no-progress
+  $PKG_MANAGER install -g gulp --no-progress
   check_and_exit $? GULP
 fi
 
 if [ 1 == $RUNBOWER ]; then
   header "Installing bower"
-  npm install -g bower --no-progress
+  $PKG_MANAGER install -g bower --no-progress
   check_and_exit $? BOWER
 fi 
 
@@ -145,15 +150,9 @@ header "BUILD"
 
 # run package managers
 if [ -e $BASE/package.json ]; then
-  if [ 1 == $USEYARN ]; then
-    header "RUNNING YARN INSTALL"
-    yarn install
-    check_and_exit $? yarn_install
-  else
-    header "RUNNING NPM INSTALL"
-    npm install --no-progress
-    check_and_exit $? npm_install
-  fi
+  header "RUNNING NPM INSTALL"
+  $PKG_MANAGER install --no-progress
+  check_and_exit $? npm_install
 fi
 
 if [ 1 == $RUNBOWER ]; then
