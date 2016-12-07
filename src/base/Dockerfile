@@ -9,10 +9,10 @@ RUN mkdir /src && \
     apt-get install -qq -y wget git unzip && \
     apt-get autoremove -qq -y && \
     apt-get clean -qq && \
-    echo "\n*** yarn ***\n" && \
-    apt-get install -qq -y yarn && \
     echo "\n*** nvm ***\n" && \
     wget -qO- https://raw.githubusercontent.com/creationix/nvm/v0.31.2/install.sh | bash && \
+    echo "\n*** yarn ***\n" && \
+    apt-get install -qq -y yarn && \
     echo "\n*** composer ***\n" && \
     php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" && \
 # Changes automatically, we can not use this
