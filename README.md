@@ -26,56 +26,15 @@ Git is installed within the container.
 
 The package build-essential is installed within the container.
 
-### RUBY ###
-
-RUBY builds are now deprecated. Plase inherit from the image and install Ruby in a prebuild.sh.
-
 ## Execution ##
 
 NODEJS will be installed using nvm. It is respecting .nvmrc. After that, grunt, gulp and bower are installed
 
 ### Customization
 
-#### Not required build tools
+You can diable build tools ( installation and run ). Also it is possible to set a custom base directory. From a docker perspective you can inherit from this image and customize the resulting image with a pre- and postbuild script.
 
-You may want to turn off build tools. To do this you need to create a .webbuild/variables.sh file in the base directory. There you can set the following variables:
-
-|Variable|Build tool|Value to turn off|
-|---|---|---|
-|RUNULP|gulp|!= 1|
-|RUNGRUNT|grunt|!= 1|
-|RUNBOWER|bower|!= 1|
-|RUNCOMPOSER|composer|!= 1|
-
-Earlier versions allowed disabling by passing environment variables. Those environment variables are deprecated and will be disabled in the future.
-
-|Variable|Build tool|
-|---|---|
-|NOGULP|gulp|
-|NOGRUNT|grunt|
-|NOBOWER|bower|
-|NOCOMPOSER|composer|
-
-Setting such a variable will disable installation ( except of composer which is always installed ) and execution.
-
-Doing this will speed up the build process.
-
-## ONBUILD ##
-
-There are two ONBUILD trigger. They copy `prebuild.sh` respectively `postbuild.sh` into the newly image. Therefore 
-the following Dockerfile will allow you add standard customizations according to your needs:
-
-    FROM briefbote/webbuild:latest
-    MAINTAINER Test <donotreply@test.de>
-
-## BASE directory ##
-
-The base directory ( the directory where the entrypoint runs the build steps ) is `/src` except when
-`/src/src` exists
-
-### Custom base directory
-
-If your base directory follows not the convention use the environment variable `SETBASEDIR` to change it.
+See https://github.com/sascha-andres/webbuild/wiki/Customization for more information. 
 
 ## Build steps ##
 
@@ -98,7 +57,7 @@ Currently a `$BASE/.nvmrc` is still respected.
 
 ## Return codes ##
 
-Non zero exit codes will be returned when one of the build steps are failing or `/app` is empty after step 10
+Non zero exit codes will be returned when one of the build steps are failing or `/app` is empty after step 14.
 
 ## Usage ##
 

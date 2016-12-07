@@ -32,6 +32,7 @@ RUNGRUNT=1
 RUNGULP=1
 RUNBOWER=1
 RUNCOMPOSER=1
+USEYARN=0
 
 # NVM
 NVM_DIR=/root/.nvm
@@ -75,6 +76,11 @@ if [ -e $BASE/.webbuild/variables.sh ]; then
   . $BASE/.webbuild/variables.sh
 fi
 
+PKG_MANAGER="npm"
+if [ 1 == $USEYARN ]; then
+  PKG_MANAGER="yarn"
+fi
+
 header "NODE and NODE based"
 
 if [ -e $BASE/.webbuild/.nvmrc ]; then
@@ -100,7 +106,7 @@ else
   fi
 fi
 
-echo "*** NODE version: `node --version`"
+echo "==> NODE version: `node --version`"
 
 # as this may be an inherited image check for prebuild and if it exists execute it
 if [ -e /exec/prebuild.sh ]; then
@@ -117,24 +123,26 @@ if [ -e $BASE/.webbuild/prebuild.sh ]; then
 fi
 
 header "Updating npm"
-npm install -g npm --no-progress
+$PKG_MANAGER install -g npm --no-progress
 check_and_exit $? npm_update
+
+echo "==> NPM version: `npm --version`"
 
 if [ 1 == $RUNGRUNT ]; then
   header "Installing grunt"
-  npm install -g grunt --no-progress
+  $PKG_MANAGER install -g grunt --no-progress
   check_and_exit $? GRUNT
 fi
 
 if [ 1 == $RUNGULP ]; then
   header "Installing gulp"
-  npm install -g gulp --no-progress
+  $PKG_MANAGER install -g gulp --no-progress
   check_and_exit $? GULP
 fi
 
 if [ 1 == $RUNBOWER ]; then
   header "Installing bower"
-  npm install -g bower --no-progress
+  $PKG_MANAGER install -g bower --no-progress
   check_and_exit $? BOWER
 fi 
 
@@ -143,7 +151,7 @@ header "BUILD"
 # run package managers
 if [ -e $BASE/package.json ]; then
   header "RUNNING NPM INSTALL"
-  npm install --no-progress
+  $PKG_MANAGER install --no-progress
   check_and_exit $? npm_install
 fi
 

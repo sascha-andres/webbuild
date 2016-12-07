@@ -2,6 +2,8 @@ RUN mkdir /src && \
     mkdir /app && \
     mkdir /exec && \
     echo "\n*** Updating system ***\n" && \
+    curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - > /dev/null && \
+    echo "deb http://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list > /dev/null && \
     apt-get update -qq -y && \
     apt-get dist-upgrade -qq -y && \
     apt-get install -qq -y wget git unzip && \
@@ -9,6 +11,8 @@ RUN mkdir /src && \
     apt-get clean -qq && \
     echo "\n*** nvm ***\n" && \
     wget -qO- https://raw.githubusercontent.com/creationix/nvm/v0.31.2/install.sh | bash && \
+    echo "\n*** yarn ***\n" && \
+    apt-get install -qq -y yarn && \
     echo "\n*** composer ***\n" && \
     php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" && \
 # Changes automatically, we can not use this
