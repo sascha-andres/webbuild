@@ -121,11 +121,6 @@ header "Updating npm"
 npm install -g npm --no-progress
 check_and_exit $? npm_update
 
-if [ 1 == $USEYARN ]; then
-  header "Installing yarn"
-  npm install -g yarn --no-progress
-fi
-
 echo "==> NPM version: `npm --version`"
 
 if [ 1 == $RUNGRUNT ]; then
