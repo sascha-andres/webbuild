@@ -3,3 +3,4 @@ app/
 src/php55/Dockerfile
 src/php56/Dockerfile
 src/php70/Dockerfile
+src/php71/Dockerfile
