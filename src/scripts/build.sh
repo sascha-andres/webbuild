@@ -74,12 +74,24 @@ fi
 if [ -e $BASE/.webbuild/variables.sh ]; then
   header "variables.sh"
   . $BASE/.webbuild/variables.sh
+  echo "loaded"
 fi
+
+header "configuration"
+echo "RUNGRUNT: $RUNGRUNT"
+echo "RUNGULP: $RUNGULP"
+echo "RUNBOWER: $RUNBOWER"
+echo "RUNCOMPOSER: $RUNCOMPOSER"
+echo "USEYARN: $USEYARN"
+
+header "Setting package manager"
 
 PKG_MANAGER="npm"
 if [ 1 == $USEYARN ]; then
   PKG_MANAGER="yarn"
 fi
+
+echo "set to $PKG_MANAGER"
 
 header "NODE and NODE based"
 
