@@ -1,4 +1,4 @@
-.PHONY: php55 php56 php70 clean push
+.PHONY: php55 php56 php70 php71 clean push
 php55:
 	cp php55/_Dockerfile php55/Dockerfile
 	cat base/Dockerfile >> php55/Dockerfile
@@ -12,7 +12,12 @@ php56:
 php70:
 	cp php70/_Dockerfile php70/Dockerfile
 	cat base/Dockerfile >> php70/Dockerfile
-	docker build --no-cache -f php70/Dockerfile -t briefbote/webbuild:70 -t briefbote/webbuild:latest .
+	docker build --no-cache -f php70/Dockerfile -t briefbote/webbuild:70 .
+
+php71:
+	cp php71/_Dockerfile php71/Dockerfile
+	cat base/Dockerfile >> php71/Dockerfile
+	docker build --no-cache -f php71/Dockerfile -t briefbote/webbuild:71 -t briefbote/webbuild:latest .
 
 all:	php55 php56 php70
 
@@ -20,13 +25,12 @@ push:
 	docker push briefbote/webbuild:55
 	docker push briefbote/webbuild:56
 	docker push briefbote/webbuild:70
+	docker push briefbote/webbuild:71
 	docker push briefbote/webbuild:latest
 
 clean:
 	-docker rmi -f briefbote/webbuild:55
 	-docker rmi -f briefbote/webbuild:56
 	-docker rmi -f briefbote/webbuild:70
-	-docker rmi -f briefbote/webbuild:55-ruby
-	-docker rmi -f briefbote/webbuild:56-ruby
-	-docker rmi -f briefbote/webbuild:70-ruby
+	-docker rmi -f briefbote/webbuild:71
 	-docker rmi -f briefbote/webbuild:latest
