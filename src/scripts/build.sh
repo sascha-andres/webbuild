@@ -135,7 +135,7 @@ if [ -e $BASE/.webbuild/prebuild.sh ]; then
 fi
 
 header "Updating npm"
-$PKG_MANAGER install -g npm --no-progress
+npm install -g npm --no-progress
 check_and_exit $? npm_update
 
 echo "==> NPM version: `npm --version`"
