@@ -19,10 +19,9 @@ php71:
 	cat base/Dockerfile >> php71/Dockerfile
 	docker build --no-cache -f php71/Dockerfile -t briefbote/webbuild:71 -t briefbote/webbuild:latest .
 
-all:	php55 php56 php70 php71
+all: php56 php70 php71
 
 push:
-	docker push briefbote/webbuild:55
 	docker push briefbote/webbuild:56
 	docker push briefbote/webbuild:70
 	docker push briefbote/webbuild:71

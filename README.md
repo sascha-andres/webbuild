@@ -8,15 +8,16 @@ The container can be used using briefbote/webbuild
 
 ## Inside ##
 
-There are three flavors of this container:
+There are four flavors of this container:
 
 * PHP 5.5
 * PHP 5.6
 * PHP 7.0
+* PHP 7.1
 
 You can use specific php versions by using them as a tag:
 
-`docker run briefbote/webbuild:55` for PHP5.5 for example.
+`docker run briefbote/webbuild:56` for PHP5.5 for example.
 
 The `latest` tag points to the PHP7.0 version
 
@@ -25,6 +26,12 @@ Build expects `/src` containing the source code and `/app` containing the releas
 Git is installed within the container.
 
 The package build-essential is installed within the container.
+
+### Note about php-55
+
+This container will not be updated automatically as support for PHP 5.5 has been retired. Version 5.6 will get security updates until 12/31/2018.
+
+See http://php.net/supported-versions.php
 
 ## Execution ##
 
