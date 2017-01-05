@@ -33,6 +33,7 @@ RUNGULP=1
 RUNBOWER=1
 RUNCOMPOSER=1
 USEYARN=0
+SHOWPROGESS=0
 
 # NVM
 NVM_DIR=/root/.nvm
@@ -83,6 +84,7 @@ echo "RUNGULP: $RUNGULP"
 echo "RUNBOWER: $RUNBOWER"
 echo "RUNCOMPOSER: $RUNCOMPOSER"
 echo "USEYARN: $USEYARN"
+echo "SHOWPROGESS: $SHOWPROGESS"
 
 header "Setting package manager"
 
@@ -135,26 +137,42 @@ if [ -e $BASE/.webbuild/prebuild.sh ]; then
 fi
 
 header "Updating npm"
-npm install -g npm --no-progress
+if [ 1 == $SHOWPROGESS ]; then
+  npm install -g npm
+else
+  npm install -g npm --no-progress
+fi
 check_and_exit $? npm_update
 
 echo "==> NPM version: `npm --version`"
 
 if [ 1 == $RUNGRUNT ]; then
   header "Installing grunt"
-  $PKG_MANAGER install -g grunt --no-progress
+  if [ 1 == $SHOWPROGESS ]; then
+    $PKG_MANAGER install -g grunt
+  else
+    $PKG_MANAGER install -g grunt --no-progress
+  fi
   check_and_exit $? GRUNT
 fi
 
 if [ 1 == $RUNGULP ]; then
   header "Installing gulp"
-  $PKG_MANAGER install -g gulp --no-progress
+  if [ 1 == $SHOWPROGESS ]; then
+    $PKG_MANAGER install -g gulp
+  else
+    $PKG_MANAGER install -g gulp --no-progress
+  fi
   check_and_exit $? GULP
 fi
 
 if [ 1 == $RUNBOWER ]; then
   header "Installing bower"
-  $PKG_MANAGER install -g bower --no-progress
+  if [ 1 == $SHOWPROGESS ]; then
+    $PKG_MANAGER install -g bower
+  else
+    $PKG_MANAGER install -g bower --no-progress
+  fi
   check_and_exit $? BOWER
 fi 
 
@@ -163,7 +181,11 @@ header "BUILD"
 # run package managers
 if [ -e $BASE/package.json ]; then
   header "RUNNING NPM INSTALL"
-  $PKG_MANAGER install --no-progress
+  if [ 1 == $SHOWPROGESS ]; then
+    $PKG_MANAGER install
+  else
+    $PKG_MANAGER install --no-progress
+  fi
   check_and_exit $? npm_install
 fi
 
