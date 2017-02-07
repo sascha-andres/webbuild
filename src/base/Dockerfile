@@ -10,7 +10,7 @@ RUN mkdir /src && \
     apt-get autoremove -qq -y && \
     apt-get clean -qq && \
     echo "\n*** nvm ***\n" && \
-    wget -qO- https://raw.githubusercontent.com/creationix/nvm/v0.31.2/install.sh | bash && \
+    wget -qO- https://raw.githubusercontent.com/creationix/nvm/v0.33.0/install.sh | bash && \
     echo "\n*** yarn ***\n" && \
     apt-get install -qq -y yarn && \
     echo "\n*** composer ***\n" && \
