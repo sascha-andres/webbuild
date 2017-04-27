@@ -218,22 +218,6 @@ if [ "x" != "x$FILE_OWNER" ]; then
   check_and_exit $? chown
 fi
 
-# check for empty /app dir
-if [ ! "$(ls -A /app)" ]; then
-  header "COPY"
-  if [ -d $BASE/build ]; then
-    header "build/"
-    cp -R $BASE/build/* /app/
-    check_and_exit $? build_app
-  else
-    if [ -d $BASE/release ]; then
-      header "release/"
-      cp -R $BASE/release/* /app/
-      check_and_exit $? release_app
-    fi
-  fi
-fi
-
 if [ ! "$(ls -A /app)" ]; then
   echo "*** NO BUILD RESULT"
   echo "*** For any questions or issues go to https://github.com/sascha-andres/webbuild"
