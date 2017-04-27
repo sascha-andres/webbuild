@@ -217,6 +217,7 @@ fi
 if [ "x" != "x$FILE_OWNER" ]; then
   header "Setting user rights"
   chown -R $FILE_OWNER /app
+  check_and_exit $? chown
 fi
 
 # check for empty /app dir
