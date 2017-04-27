@@ -214,6 +214,11 @@ if [ -e $BASE/.webbuild/postbuild.sh ]; then
   check_and_exit $? postbuild_mounted
 fi
 
+if [ "x" != "x$FILE_OWNER" ]; then
+  header "Setting user rights"
+  chown -R $FILE_OWNER /app
+fi
+
 # check for empty /app dir
 if [ ! "$(ls -A /app)" ]; then
   header "COPY"
