@@ -43,12 +43,8 @@ export NVM_DIR
 
 # Set variables for build run
 BASE=/src
-if [ "x" == "x$SETBASEDIR" ]; then
-  if [ -d /src/src ]; then
-    BASE=/src/src
-  fi
-else
-  BASE=$SETBASEDIR
+if [ -d /src/src ]; then
+  BASE=/src/src
 fi
 
 echo "==> Base directory: $BASE"
@@ -57,10 +53,19 @@ cd $BASE
 
 header "configuration"
 
+# Running mounted prebuild
+if [ -e $BASE/.webbuild/prebuild.sh ]; then
+  header ".webbuild PREBBUILD"
+  /bin/bash $BASE/.webbuild/prebuild.sh $BASE
+  check_and_exit $? prebuild_mounted
+fi
+
 if [ -e $BASE/.webbuild/variables.sh ]; then
   echo "Including variables.sh"
   . $BASE/.webbuild/variables.sh
 fi
+
+cd $BASE
 
 echo "RUNGRUNT:    $RUNGRUNT"
 echo "RUNGULP:     $RUNGULP"
@@ -113,13 +118,6 @@ if [ 0 -lt $NODE_ACTIVE ]; then
   check_and_exit $? npm_update
 
   echo "==> NPM version: `npm --version`"
-fi
-
-# Running mounted prebuild
-if [ -e $BASE/.webbuild/prebuild.sh ]; then
-  header ".webbuild PREBBUILD"
-  /bin/bash $BASE/.webbuild/prebuild.sh $BASE
-  check_and_exit $? prebuild_mounted
 fi
 
 if [ 1 == $RUNGRUNT ]; then
