@@ -24,7 +24,6 @@ push:
 	docker push briefbote/webbuild:latest
 
 clean:
-	-docker rmi -f briefbote/webbuild:55
 	-docker rmi -f briefbote/webbuild:56
 	-docker rmi -f briefbote/webbuild:70
 	-docker rmi -f briefbote/webbuild:71
