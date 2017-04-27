@@ -39,7 +39,7 @@ NODEJS will be installed using nvm. It is respecting .nvmrc. After that, grunt, 
 
 ### Customization
 
-You can diable build tools ( installation and run ). Also it is possible to set a custom base directory. From a docker perspective you can inherit from this image and customize the resulting image with a pre- and postbuild script.
+You can disable build tools ( installation and run ). Also it is possible to set a custom base directory. From a docker perspective you can inherit from this image and customize the resulting image with a pre- and postbuild script.
 
 See https://github.com/sascha-andres/webbuild/wiki/Customization for more information. 
 
