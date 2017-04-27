@@ -32,6 +32,7 @@ RUNGRUNT=1
 RUNGULP=1
 RUNBOWER=1
 RUNCOMPOSER=1
+USENODE=1
 USEYARN=0
 SHOWPROGESS=0
 
@@ -54,36 +55,19 @@ echo "==> Base directory: $BASE"
 
 cd $BASE
 
-# Look at environment variables for build tools
-if [ "x" != "x$NOGRUNT" ]; then
-  echo "!!NOGRUNT environment variable is deprecated. Use $BASE/.webbuild/variables.sh"
-  RUNGRUNT=0
-fi
-if [ "x" != "x$NOGULP" ]; then
-  echo "!!NOGULP environment variable is deprecated. Use $BASE/.webbuild/variables.sh"
-  RUNGULP=0
-fi
-if [ "x" != "x$NOBOWER" ]; then
-  echo "!!NOBOWER environment variable is deprecated. Use $BASE/.webbuild/variables.sh"
-  RUNBOWER=0
-fi
-if [ "x" != "x$NOCOMPOSER" ]; then
-  echo "!!NOCOMPOSER environment variable is deprecated. Use $BASE/.webbuild/variables.sh"
-  RUNCOMPOSER=0
-fi
+header "configuration"
 
 if [ -e $BASE/.webbuild/variables.sh ]; then
-  header "variables.sh"
+  echo "Including variables.sh"
   . $BASE/.webbuild/variables.sh
-  echo "loaded"
 fi
 
-header "configuration"
-echo "RUNGRUNT: $RUNGRUNT"
-echo "RUNGULP: $RUNGULP"
-echo "RUNBOWER: $RUNBOWER"
+echo "RUNGRUNT:    $RUNGRUNT"
+echo "RUNGULP:     $RUNGULP"
+echo "RUNBOWER:    $RUNBOWER"
 echo "RUNCOMPOSER: $RUNCOMPOSER"
-echo "USEYARN: $USEYARN"
+echo "USEYARN:     $USEYARN"
+echo "USENODE:     $USENODE"
 echo "SHOWPROGESS: $SHOWPROGESS"
 
 header "Setting package manager"
@@ -95,38 +79,40 @@ fi
 
 echo "set to $PKG_MANAGER"
 
-header "NODE and NODE based"
+NODE_ACTIVE=0
+let "NODE_ACTIVE += $USENODE"
+let "NODE_ACTIVE += $RUNGRUNT"
+let "NODE_ACTIVE += $RUNGULP"
+let "NODE_ACTIVE += $RUNBOWER"
+if [ 0 -lt $NODE_ACTIVE ]; then
+  header "NODE and NODE based"
 
-if [ -e $BASE/.webbuild/.nvmrc ]; then
-  echo "*** Using .nvmrc"
-  cd $BASE/.webbuild
-  nvm install
-  check_and_exit $? NVM_USE
-  nvm use
-  check_and_exit $? NVM_USE
-  cd $BASE
-else
-  if [ -e $BASE/.nvmrc ]; then
-    echo "!! $BASE/.nvmrc is deprecated. Use $BASE/.webbuild/.nvmrc !!"
+  if [ -e $BASE/.webbuild/.nvmrc ]; then
+    echo "*** Using .nvmrc"
+    cd $BASE/.webbuild
     nvm install
     check_and_exit $? NVM_USE
     nvm use
     check_and_exit $? NVM_USE
+    cd $BASE
   else
     nvm install 4
     check_and_exit $? NVM_INSTALL
     nvm use 4
     check_and_exit $? NVM_USE
   fi
-fi
 
-echo "==> NODE version: `node --version`"
+  echo "==> NODE version: `node --version`"
 
-# as this may be an inherited image check for prebuild and if it exists execute it
-if [ -e /exec/prebuild.sh ]; then
-  header "PREBBUILD"
-  /bin/bash /exec/prebuild.sh $BASE
-  check_and_exit $? prebuild
+  header "Updating npm"
+  if [ 1 == $SHOWPROGESS ]; then
+    npm install -g npm
+  else
+    npm install -g npm --no-progress
+  fi
+  check_and_exit $? npm_update
+
+  echo "==> NPM version: `npm --version`"
 fi
 
 # Running mounted prebuild
@@ -135,16 +121,6 @@ if [ -e $BASE/.webbuild/prebuild.sh ]; then
   /bin/bash $BASE/.webbuild/prebuild.sh $BASE
   check_and_exit $? prebuild_mounted
 fi
-
-header "Updating npm"
-if [ 1 == $SHOWPROGESS ]; then
-  npm install -g npm
-else
-  npm install -g npm --no-progress
-fi
-check_and_exit $? npm_update
-
-echo "==> NPM version: `npm --version`"
 
 if [ 1 == $RUNGRUNT ]; then
   header "Installing grunt"
@@ -178,15 +154,17 @@ fi
 
 header "BUILD"
 
-# run package managers
-if [ -e $BASE/package.json ]; then
-  header "RUNNING NPM INSTALL"
-  if [ 1 == $SHOWPROGESS ]; then
-    $PKG_MANAGER install
-  else
-    $PKG_MANAGER install --no-progress
+if [ 1 == $USENODE ]; then
+  # run package managers
+  if [ -e $BASE/package.json ]; then
+    header "RUNNING NPM INSTALL"
+    if [ 1 == $SHOWPROGESS ]; then
+      $PKG_MANAGER install
+    else
+      $PKG_MANAGER install --no-progress
+    fi
+    check_and_exit $? npm_install
   fi
-  check_and_exit $? npm_install
 fi
 
 if [ 1 == $RUNBOWER ]; then
@@ -227,13 +205,6 @@ if [ -e $BASE/.webbuild/custom.sh ]; then
   header "Running CUSTOM"
   /bin/bash $BASE/.webbuild/custom.sh
   check_and_exit $? custom
-else
-  if [ -e $BASE/custom.sh ]; then
-    header "Running CUSTOM"
-    echo "!!$BASE/custom.sh is deprecated. Use $BASE/.webbuild/custom.sh instead"
-    /bin/bash $BASE/custom.sh
-    check_and_exit $? custom
-  fi
 fi
 
 # Running mounted prebuild
@@ -241,13 +212,6 @@ if [ -e $BASE/.webbuild/postbuild.sh ]; then
   header ".webbuild POSTBUILD"
   /bin/bash $BASE/.webbuild/postbuild.sh $BASE
   check_and_exit $? postbuild_mounted
-fi
-
-# as this may be an inherited image check for postbuild an if it exits execute it
-if [ -e /exec/postbuild.sh ]; then
-  header "Running POSTBUILD"
-  /bin/bash /exec/postbuild.sh
-  check_and_exit $? postbuild
 fi
 
 # check for empty /app dir

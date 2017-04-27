@@ -10,14 +10,11 @@ RUN mkdir /src && \
     apt-get autoremove -qq -y && \
     apt-get clean -qq && \
     echo "\n*** nvm ***\n" && \
-    wget -qO- https://raw.githubusercontent.com/creationix/nvm/v0.33.0/install.sh | bash && \
+    wget -qO- https://raw.githubusercontent.com/creationix/nvm/v0.33.1/install.sh | bash && \
     echo "\n*** yarn ***\n" && \
     apt-get install -qq -y yarn && \
     echo "\n*** composer ***\n" && \
     php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" && \
-# Changes automatically, we can not use this
-# https://getcomposer.org/download/
-#    php -r "if (hash_file('SHA384', 'composer-setup.php') === '070854512ef404f16bac87071a6db9fd9721da1684cd4589b1196c3faf71b9a2682e2311b36a5079825e155ac7ce150d') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;" && \
     php composer-setup.php && \
     php -r "unlink('composer-setup.php');" && \
     echo "\n*** Cleanup ***\n" && \
@@ -25,9 +22,6 @@ RUN mkdir /src && \
 
 COPY scripts/build.sh /exec/build.sh
 COPY scripts/composer /usr/local/bin/composer
-
-ONBUILD COPY prebuild.sh /exec/prebuild.sh
-ONBUILD COPY postbuild.sh /exec/postbuild.sh
 
 RUN chmod 700 /exec/build.sh
 
