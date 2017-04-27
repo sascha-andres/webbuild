@@ -205,7 +205,7 @@ if [ -e $BASE/.webbuild/custom.sh ]; then
   check_and_exit $? custom
 fi
 
-# Running mounted prebuild
+# Running mounted postbuild
 if [ -e $BASE/.webbuild/postbuild.sh ]; then
   header ".webbuild POSTBUILD"
   /bin/bash $BASE/.webbuild/postbuild.sh $BASE
