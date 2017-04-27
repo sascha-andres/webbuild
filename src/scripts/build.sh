@@ -79,7 +79,12 @@ fi
 
 echo "set to $PKG_MANAGER"
 
-if [ 1 == $USENODE ] || [ 1 == $RUNGRUNT ] || [ 1 == $RUNGULP ] || [ 1 == $RUNBOWER ]; then
+NODE_ACTIVE=0
+let "NODE_ACTIVE += $USENODE"
+let "NODE_ACTIVE += $RUNGRUNT"
+let "NODE_ACTIVE += $RUNGULP"
+let "NODE_ACTIVE += $RUNBOWER"
+if [ 0 -lt $NODE_ACTIVE ]; then
   header "NODE and NODE based"
 
   if [ -e $BASE/.webbuild/.nvmrc ]; then
