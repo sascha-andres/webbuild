@@ -3,7 +3,7 @@
 ### bash/header.sh ###
 function header() {
   echo
-  echo "*** $1 ***"
+  echo "$1"
   echo
 }
 ### bash/header.sh ###
@@ -41,7 +41,7 @@ function log() {
 }
 ### bash/log.sh ###
 
-header "*** Updating system ***"
+header "Updating system"
 exec_and_continue_on_ok "curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - "
 exec_and_continue_on_ok "echo \"deb http://dl.yarnpkg.com/debian/ stable main\" | tee /etc/apt/sources.list.d/yarn.list"
 exec_and_continue_on_ok "apt-get update -qq -y"
@@ -50,18 +50,18 @@ exec_and_continue_on_ok "apt-get install -qq -y wget git unzip"
 exec_and_continue_on_ok "apt-get autoremove -qq -y"
 exec_and_continue_on_ok "apt-get clean -qq"
 
-header "*** nvm ***" 
+header "nvm" 
 exec_and_continue_on_ok "wget -qO- https://raw.githubusercontent.com/creationix/nvm/v0.33.1/install.sh | bash"
 
-header "*** yarn ***"
+header "yarn"
 exec_and_continue_on_ok "apt-get install -qq -y yarn "
 
-header "*** composer ***"
+header "composer"
 exec_and_continue_on_ok "php -r \"copy('https://getcomposer.org/installer', 'composer-setup.php');\""
 exec_and_continue_on_ok "php composer-setup.php"
 exec_and_continue_on_ok "php -r \"unlink('composer-setup.php');\""
 
-header "*** Cleanup ***"
+header "Cleanup"
 exec_and_continue_on_ok "rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*"
 
 exec_and_continue_on_ok "chmod 700 /exec/build.sh"
