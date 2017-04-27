@@ -201,7 +201,7 @@ fi
 # run custom.sh if included in source
 if [ -e $BASE/.webbuild/custom.sh ]; then
   header "Running CUSTOM"
-  /bin/bash $BASE/.webbuild/custom.sh
+  /bin/bash $BASE/.webbuild/custom.sh $BASE
   check_and_exit $? custom
 fi
 
