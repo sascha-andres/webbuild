@@ -56,6 +56,12 @@ echo "==> Base directory: $BASE"
 cd $BASE
 
 header "configuration"
+
+if [ -e $BASE/.webbuild/variables.sh ]; then
+  echo "Including variables.sh"
+  . $BASE/.webbuild/variables.sh
+fi
+
 echo "RUNGRUNT:    $RUNGRUNT"
 echo "RUNGULP:     $RUNGULP"
 echo "RUNBOWER:    $RUNBOWER"
