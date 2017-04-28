@@ -43,17 +43,20 @@ export NVM_DIR
 
 # Set variables for build run
 BASE=/src
-if [ "x" == "x$SETBASEDIR" ]; then
-  if [ -d /src/src ]; then
-    BASE=/src/src
-  fi
-else
-  BASE=$SETBASEDIR
+if [ -d /src/src ]; then
+  BASE=/src/src
 fi
 
 echo "==> Base directory: $BASE"
 
 cd $BASE
+
+# Running mounted prebuild
+if [ -e $BASE/.webbuild/prebuild.sh ]; then
+  header ".webbuild PREBBUILD"
+  /bin/bash $BASE/.webbuild/prebuild.sh $BASE
+  check_and_exit $? prebuild_mounted
+fi
 
 header "configuration"
 
@@ -61,6 +64,8 @@ if [ -e $BASE/.webbuild/variables.sh ]; then
   echo "Including variables.sh"
   . $BASE/.webbuild/variables.sh
 fi
+
+cd $BASE
 
 echo "RUNGRUNT:    $RUNGRUNT"
 echo "RUNGULP:     $RUNGULP"
@@ -106,28 +111,21 @@ if [ 0 -lt $NODE_ACTIVE ]; then
 
   header "Updating npm"
   if [ 1 == $SHOWPROGESS ]; then
-    npm install -g npm
+    npm install -g npm > /dev/null
   else
-    npm install -g npm --no-progress
+    npm install -g npm --no-progress > /dev/null
   fi
   check_and_exit $? npm_update
 
   echo "==> NPM version: `npm --version`"
 fi
 
-# Running mounted prebuild
-if [ -e $BASE/.webbuild/prebuild.sh ]; then
-  header ".webbuild PREBBUILD"
-  /bin/bash $BASE/.webbuild/prebuild.sh $BASE
-  check_and_exit $? prebuild_mounted
-fi
-
 if [ 1 == $RUNGRUNT ]; then
   header "Installing grunt"
   if [ 1 == $SHOWPROGESS ]; then
-    $PKG_MANAGER install -g grunt
+    $PKG_MANAGER install -g grunt > /dev/null
   else
-    $PKG_MANAGER install -g grunt --no-progress
+    $PKG_MANAGER install -g grunt --no-progress > /dev/null
   fi
   check_and_exit $? GRUNT
 fi
@@ -135,9 +133,9 @@ fi
 if [ 1 == $RUNGULP ]; then
   header "Installing gulp"
   if [ 1 == $SHOWPROGESS ]; then
-    $PKG_MANAGER install -g gulp
+    $PKG_MANAGER install -g gulp > /dev/null
   else
-    $PKG_MANAGER install -g gulp --no-progress
+    $PKG_MANAGER install -g gulp --no-progress > /dev/null
   fi
   check_and_exit $? GULP
 fi
@@ -145,9 +143,9 @@ fi
 if [ 1 == $RUNBOWER ]; then
   header "Installing bower"
   if [ 1 == $SHOWPROGESS ]; then
-    $PKG_MANAGER install -g bower
+    $PKG_MANAGER install -g bower > /dev/null
   else
-    $PKG_MANAGER install -g bower --no-progress
+    $PKG_MANAGER install -g bower --no-progress > /dev/null
   fi
   check_and_exit $? BOWER
 fi 
@@ -159,9 +157,9 @@ if [ 1 == $USENODE ]; then
   if [ -e $BASE/package.json ]; then
     header "RUNNING NPM INSTALL"
     if [ 1 == $SHOWPROGESS ]; then
-      $PKG_MANAGER install
+      $PKG_MANAGER install > /dev/null
     else
-      $PKG_MANAGER install --no-progress
+      $PKG_MANAGER install --no-progress > /dev/null
     fi
     check_and_exit $? npm_install
   fi
@@ -203,31 +201,21 @@ fi
 # run custom.sh if included in source
 if [ -e $BASE/.webbuild/custom.sh ]; then
   header "Running CUSTOM"
-  /bin/bash $BASE/.webbuild/custom.sh
+  /bin/bash $BASE/.webbuild/custom.sh $BASE
   check_and_exit $? custom
 fi
 
-# Running mounted prebuild
+# Running mounted postbuild
 if [ -e $BASE/.webbuild/postbuild.sh ]; then
   header ".webbuild POSTBUILD"
   /bin/bash $BASE/.webbuild/postbuild.sh $BASE
   check_and_exit $? postbuild_mounted
 fi
 
-# check for empty /app dir
-if [ ! "$(ls -A /app)" ]; then
-  header "COPY"
-  if [ -d $BASE/build ]; then
-    header "build/"
-    cp -R $BASE/build/* /app/
-    check_and_exit $? build_app
-  else
-    if [ -d $BASE/release ]; then
-      header "release/"
-      cp -R $BASE/release/* /app/
-      check_and_exit $? release_app
-    fi
-  fi
+if [ "x" != "x$FILE_OWNER" ]; then
+  header "Setting user rights"
+  chown -R $FILE_OWNER /app
+  check_and_exit $? chown
 fi
 
 if [ ! "$(ls -A /app)" ]; then

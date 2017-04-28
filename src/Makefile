@@ -1,8 +1,4 @@
-.PHONY: php55 php56 php70 php71 clean push
-php55:
-	cp php55/_Dockerfile php55/Dockerfile
-	cat base/Dockerfile >> php55/Dockerfile
-	docker build --no-cache -f php55/Dockerfile -t briefbote/webbuild:55 .
+.PHONY: php56 php70 php71 clean push
 
 php56:
 	cp php56/_Dockerfile php56/Dockerfile
@@ -28,7 +24,6 @@ push:
 	docker push briefbote/webbuild:latest
 
 clean:
-	-docker rmi -f briefbote/webbuild:55
 	-docker rmi -f briefbote/webbuild:56
 	-docker rmi -f briefbote/webbuild:70
 	-docker rmi -f briefbote/webbuild:71
