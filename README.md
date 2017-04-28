@@ -45,9 +45,9 @@ See https://github.com/sascha-andres/webbuild/wiki/Customization for more inform
 
 ## Build steps ##
 
-1. Loading `$BASEDIR/.webbuild/variables.sh` if it exists
-2. `nvm install 4` or `nvm install` in .webbuild/ is .nvmrc exists there if using node
-3. `$BASEDIR/.webbuild/prebuild.sh` if it exists
+1. `$BASEDIR/.webbuild/prebuild.sh` if it exists
+2. Loading `$BASEDIR/.webbuild/variables.sh` if it exists
+3. `nvm install 4` or `nvm install` in .webbuild/ is .nvmrc exists there if using node
 4. `npm install` if `$BASE/package.json` exists
 5. `bower` if `$BASE/bower.json` exists
 6. `composer` without dev dependencies if `$BASE/composer.json` exists
@@ -55,10 +55,6 @@ See https://github.com/sascha-andres/webbuild/wiki/Customization for more inform
 8. `gulp` if `$BASE/gulpfile.js` exists
 9. `$BASE/.webbuild/custom.sh` if it exists, fallback `$BASE/custom.sh` (deprecated)
 10. `$BASEDIR/.webbuild/postbuild.sh` if it exists
-11. Use `/src/build` as `/app` if `/app` is empty
-12. Use `/src/release` as `/app` if `/app` is empty
-
-Currently a `$BASE/.nvmrc` is still respected.
 
 ## Return codes ##
 
