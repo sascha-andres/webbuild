@@ -43,12 +43,7 @@ export NVM_DIR
 
 # Set variables for build run
 BASE=/src
-if [ -d /src/src ]; then
-  BASE=/src/src
-fi
-
 echo "==> Base directory: $BASE"
-
 cd $BASE
 
 # Running mounted prebuild
