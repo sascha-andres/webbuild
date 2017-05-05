@@ -36,6 +36,8 @@ USENODE=1
 USEYARN=0
 SHOWPROGESS=0
 
+header "Running version 20170505"
+
 # NVM
 NVM_DIR=/root/.nvm
 export NVM_DIR
@@ -43,19 +45,14 @@ export NVM_DIR
 
 # Set variables for build run
 BASE=/src
-if [ -d /src/src ]; then
-  BASE=/src/src
-fi
-
 echo "==> Base directory: $BASE"
-
 cd $BASE
 
 # Running mounted prebuild
 if [ -e $BASE/.webbuild/prebuild.sh ]; then
   header ".webbuild PREBBUILD"
   /bin/bash $BASE/.webbuild/prebuild.sh $BASE
-  check_and_exit $? prebuild_mounted
+  check_and_exit $? prebuild
 fi
 
 header "configuration"
@@ -123,9 +120,9 @@ fi
 if [ 1 == $RUNGRUNT ]; then
   header "Installing grunt"
   if [ 1 == $SHOWPROGESS ]; then
-    $PKG_MANAGER install -g grunt > /dev/null
+    npm install -g grunt > /dev/null
   else
-    $PKG_MANAGER install -g grunt --no-progress > /dev/null
+    npm install -g grunt --no-progress > /dev/null
   fi
   check_and_exit $? GRUNT
 fi
@@ -133,9 +130,9 @@ fi
 if [ 1 == $RUNGULP ]; then
   header "Installing gulp"
   if [ 1 == $SHOWPROGESS ]; then
-    $PKG_MANAGER install -g gulp > /dev/null
+    npm install -g gulp > /dev/null
   else
-    $PKG_MANAGER install -g gulp --no-progress > /dev/null
+    npm install -g gulp --no-progress > /dev/null
   fi
   check_and_exit $? GULP
 fi
@@ -143,9 +140,9 @@ fi
 if [ 1 == $RUNBOWER ]; then
   header "Installing bower"
   if [ 1 == $SHOWPROGESS ]; then
-    $PKG_MANAGER install -g bower > /dev/null
+    npm install -g bower > /dev/null
   else
-    $PKG_MANAGER install -g bower --no-progress > /dev/null
+    npm install -g bower --no-progress > /dev/null
   fi
   check_and_exit $? BOWER
 fi 
@@ -200,7 +197,7 @@ fi
 
 # run custom.sh if included in source
 if [ -e $BASE/.webbuild/custom.sh ]; then
-  header "Running CUSTOM"
+  header "DEPRECATED: Running CUSTOM"
   /bin/bash $BASE/.webbuild/custom.sh $BASE
   check_and_exit $? custom
 fi
@@ -209,7 +206,7 @@ fi
 if [ -e $BASE/.webbuild/postbuild.sh ]; then
   header ".webbuild POSTBUILD"
   /bin/bash $BASE/.webbuild/postbuild.sh $BASE
-  check_and_exit $? postbuild_mounted
+  check_and_exit $? postbuild
 fi
 
 if [ "x" != "x$FILE_OWNER" ]; then
@@ -225,4 +222,4 @@ if [ ! "$(ls -A /app)" ]; then
 else
   echo "*** For any questions or issues go to https://github.com/sascha-andres/webbuild"
   exit 0
-fi
+fi/
