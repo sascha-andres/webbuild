@@ -36,6 +36,8 @@ USENODE=1
 USEYARN=0
 SHOWPROGESS=0
 
+header "Running version 20170505"
+
 # NVM
 NVM_DIR=/root/.nvm
 export NVM_DIR
@@ -220,4 +222,4 @@ if [ ! "$(ls -A /app)" ]; then
 else
   echo "*** For any questions or issues go to https://github.com/sascha-andres/webbuild"
   exit 0
-fi
+fi/
