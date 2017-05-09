@@ -222,4 +222,4 @@ if [ ! "$(ls -A /app)" ]; then
 else
   echo "*** For any questions or issues go to https://github.com/sascha-andres/webbuild"
   exit 0
-fi/
+fi
