@@ -36,7 +36,7 @@ USENODE=1
 USEYARN=0
 SHOWPROGESS=0
 
-header "Running version 20170505"
+header "Running version 20170509"
 
 # NVM
 NVM_DIR=/root/.nvm
