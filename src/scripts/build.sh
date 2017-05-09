@@ -89,18 +89,18 @@ let "NODE_ACTIVE += $RUNBOWER"
 if [ 0 -lt $NODE_ACTIVE ]; then
   header "NODE and NODE based"
 
-  if [ -e $BASE/.webbuild/.nvmrc ]; then
+  if [ -e /src/.webbuild/.nvmrc ]; then
     echo "*** Using .nvmrc"
-    cd $BASE/.webbuild
+    cd /src/.webbuild
     nvm install
     check_and_exit $? NVM_USE
     nvm use
     check_and_exit $? NVM_USE
     cd $BASE
   else
-    nvm install 4
+    nvm install 6
     check_and_exit $? NVM_INSTALL
-    nvm use 4
+    nvm use 6
     check_and_exit $? NVM_USE
   fi
 
