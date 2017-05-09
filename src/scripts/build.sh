@@ -36,7 +36,7 @@ USENODE=1
 USEYARN=0
 SHOWPROGESS=0
 
-header "Running version 20170505"
+header "Running version 20170509"
 
 # NVM
 NVM_DIR=/root/.nvm
@@ -89,18 +89,18 @@ let "NODE_ACTIVE += $RUNBOWER"
 if [ 0 -lt $NODE_ACTIVE ]; then
   header "NODE and NODE based"
 
-  if [ -e $BASE/.webbuild/.nvmrc ]; then
+  if [ -e /src/.webbuild/.nvmrc ]; then
     echo "*** Using .nvmrc"
-    cd $BASE/.webbuild
+    cd /src/.webbuild
     nvm install
     check_and_exit $? NVM_USE
     nvm use
     check_and_exit $? NVM_USE
     cd $BASE
   else
-    nvm install 4
+    nvm install 6
     check_and_exit $? NVM_INSTALL
-    nvm use 4
+    nvm use 6
     check_and_exit $? NVM_USE
   fi
 
