@@ -196,16 +196,16 @@ if [ 1 == $RUNGULP ]; then
 fi
 
 # run custom.sh if included in source
-if [ -e $BASE/.webbuild/custom.sh ]; then
+if [ -e /src/.webbuild/custom.sh ]; then
   header "DEPRECATED: Running CUSTOM"
-  /bin/bash $BASE/.webbuild/custom.sh $BASE
+  /bin/bash /src/.webbuild/custom.sh $BASE
   check_and_exit $? custom
 fi
 
 # Running mounted postbuild
-if [ -e $BASE/.webbuild/postbuild.sh ]; then
+if [ -e /src/.webbuild/postbuild.sh ]; then
   header ".webbuild POSTBUILD"
-  /bin/bash $BASE/.webbuild/postbuild.sh $BASE
+  /bin/bash /src/.webbuild/postbuild.sh $BASE
   check_and_exit $? postbuild
 fi
 
