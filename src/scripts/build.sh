@@ -1,6 +1,6 @@
 #! /bin/bash
 
-# Copyright 2016 Sascha Andres
+# Copyright 2017 Sascha Andres
 #   
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -14,19 +14,38 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+### bash/check_and_exit.sh ###
 function check_and_exit {
-    if [ $1 -gt 0 ]; then
-        echo "Build step failed ($2). See log"
-        echo "*** For any questions or issues go to https://github.com/sascha-andres/webbuild"
-        exit $1
-    fi
+  if [ $1 -gt 0 ]; then
+    error "Step failed ($2). See log"
+    quit $1
+  fi
 }
-
-function header {
-    echo ""
-    echo "*** $1 ***"
-    echo ""
+### bash/check_and_exit.sh ###
+### bash/header.sh ###
+function header() {
+  echo
+  echo "$1"
+  echo
 }
+### bash/header.sh ###
+### bash/log.sh ###
+function log() {
+	echo "--> $1"
+}
+### bash/log.sh ###
+### bash/quit.sh ###
+function quit() {
+  echo
+  log "Exiting with result $1"
+  exit $1
+}
+### bash/quit.sh ###
+### bash/error.sh ###
+function error() {
+  echo "!! $1 !!"
+}
+### bash/error.sh ###
 
 RUNGRUNT=1
 RUNGULP=1
@@ -36,7 +55,7 @@ USENODE=1
 USEYARN=0
 SHOWPROGESS=0
 
-header "Running version 20170509"
+header "Running version 20170613"
 
 # NVM
 NVM_DIR=/root/.nvm
@@ -86,120 +105,20 @@ let "NODE_ACTIVE += $USENODE"
 let "NODE_ACTIVE += $RUNGRUNT"
 let "NODE_ACTIVE += $RUNGULP"
 let "NODE_ACTIVE += $RUNBOWER"
-if [ 0 -lt $NODE_ACTIVE ]; then
-  header "NODE and NODE based"
 
-  if [ -e /src/.webbuild/.nvmrc ]; then
-    echo "*** Using .nvmrc"
-    cd /src/.webbuild
-    nvm install
-    check_and_exit $? NVM_USE
-    nvm use
-    check_and_exit $? NVM_USE
-    cd $BASE
-  else
-    nvm install 6
-    check_and_exit $? NVM_INSTALL
-    nvm use 6
-    check_and_exit $? NVM_USE
-  fi
+. /exec/build_install_node.sh
 
-  echo "==> NODE version: `node --version`"
+. /exec/build_install.sh
 
-  header "Updating npm"
-  if [ 1 == $SHOWPROGESS ]; then
-    npm install -g npm > /dev/null
-  else
-    npm install -g npm --no-progress > /dev/null
-  fi
-  check_and_exit $? npm_update
+. /exec/build_build.sh
 
-  echo "==> NPM version: `npm --version`"
-fi
+if [ -e $BASE/Taskfile.yml ]; then
 
-if [ 1 == $RUNGRUNT ]; then
-  header "Installing grunt"
-  if [ 1 == $SHOWPROGESS ]; then
-    npm install -g grunt > /dev/null
-  else
-    npm install -g grunt --no-progress > /dev/null
-  fi
-  check_and_exit $? GRUNT
-fi
+  header "Using task"
+  log "look at https://github.com/go-task/task for documentation"
+  NVM_DIR=/root/.nvm /bin/task
+  check_and_exit $? task
 
-if [ 1 == $RUNGULP ]; then
-  header "Installing gulp"
-  if [ 1 == $SHOWPROGESS ]; then
-    npm install -g gulp > /dev/null
-  else
-    npm install -g gulp --no-progress > /dev/null
-  fi
-  check_and_exit $? GULP
-fi
-
-if [ 1 == $RUNBOWER ]; then
-  header "Installing bower"
-  if [ 1 == $SHOWPROGESS ]; then
-    npm install -g bower > /dev/null
-  else
-    npm install -g bower --no-progress > /dev/null
-  fi
-  check_and_exit $? BOWER
-fi 
-
-header "BUILD"
-
-if [ 1 == $USENODE ]; then
-  # run package managers
-  if [ -e $BASE/package.json ]; then
-    header "RUNNING NPM INSTALL"
-    if [ 1 == $SHOWPROGESS ]; then
-      $PKG_MANAGER install > /dev/null
-    else
-      $PKG_MANAGER install --no-progress > /dev/null
-    fi
-    check_and_exit $? npm_install
-  fi
-fi
-
-if [ 1 == $RUNBOWER ]; then
-  if [ -e $BASE/bower.json ]; then
-    header "Running BOWER"
-    bower install --allow-root --config.interactive=false
-    check_and_exit $? bower
-  fi
-fi
-
-if [ 1 == $RUNCOMPOSER ]; then
-  if [ -e $BASE/composer.json ]; then
-    header "Running COMPOSER"
-    composer install --no-dev --prefer-dist --optimize-autoloader
-    check_and_exit $? composer
-  fi
-fi
-
-# run build systems
-if [ 1 == $RUNGRUNT ]; then
-  if [ -e $BASE/Gruntfile ]; then
-    header "Running GRUNT"
-    grunt
-    check_and_exit $? grunt
-  fi
-fi
-
-if [ 1 == $RUNGULP ]; then
-  if [ -e $BASE/gulpfile.js ]; then
-    header "Running GULP"
-    gulp
-    check_and_exit $? gulp
-  fi
-fi
-
-# run custom.sh if included in source
-if [ -e /src/.webbuild/custom.sh ]; then
-  header "DEPRECATED: Running CUSTOM"
-  /bin/bash /src/.webbuild/custom.sh $BASE
-  check_and_exit $? custom
 fi
 
 # Running mounted postbuild
@@ -212,7 +131,7 @@ fi
 if [ "x" != "x$FILE_OWNER" ]; then
   header "Setting user rights"
   chown -R $FILE_OWNER /app
-  check_and_exit $? chown
+  check_and_exit $? chown_build
 fi
 
 if [ ! "$(ls -A /app)" ]; then
