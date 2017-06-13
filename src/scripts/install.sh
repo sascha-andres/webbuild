@@ -61,6 +61,11 @@ exec_and_continue_on_ok "php -r \"copy('https://getcomposer.org/installer', 'com
 exec_and_continue_on_ok "php composer-setup.php"
 exec_and_continue_on_ok "php -r \"unlink('composer-setup.php');\""
 
+header "task"
+exec_and_continue_on_ok "wget https://github.com/go-task/task/releases/download/v1.3.0/task_Linux_x86_64.tar.gz /bin/task_Linux_x86_64.tar.gz"
+cd /bin
+exec_and_continue_on_ok "tar xzvf task_Linux_x86_64.tar.gz"
+
 header "Cleanup"
 exec_and_continue_on_ok "rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*"
 
