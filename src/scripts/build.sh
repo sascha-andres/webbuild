@@ -14,19 +14,38 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+### bash/check_and_exit.sh ###
 function check_and_exit {
-    if [ $1 -gt 0 ]; then
-        echo "Build step failed ($2). See log"
-        echo "*** For any questions or issues go to https://github.com/sascha-andres/webbuild"
-        exit $1
-    fi
+  if [ $1 -gt 0 ]; then
+    error "Step failed ($2). See log"
+    quit $1
+  fi
 }
-
-function header {
-    echo ""
-    echo "*** $1 ***"
-    echo ""
+### bash/check_and_exit.sh ###
+### bash/header.sh ###
+function header() {
+  echo
+  echo "$1"
+  echo
 }
+### bash/header.sh ###
+### bash/log.sh ###
+function log() {
+	echo "--> $1"
+}
+### bash/log.sh ###
+### bash/quit.sh ###
+function quit() {
+  echo
+  log "Exiting with result $1"
+  exit $1
+}
+### bash/quit.sh ###
+### bash/error.sh ###
+function error() {
+  echo "!! $1 !!"
+}
+### bash/error.sh ###
 
 RUNGRUNT=1
 RUNGULP=1
@@ -87,26 +106,34 @@ let "NODE_ACTIVE += $RUNGRUNT"
 let "NODE_ACTIVE += $RUNGULP"
 let "NODE_ACTIVE += $RUNBOWER"
 
-. build_install_node.sh
+. /exec/build_install_node.sh
 
-. build_install.sh
+. /exec/build_install.sh
+
+. /exec/build_build.sh
 
 if [ -e $BASE/Taskfile.yml ]; then
 
   header "Using task"
   log "look at https://github.com/go-task/task for documentation"
-  /bin/task build
+  NVM_DIR=/root/.nvm /bin/task
+  check_and_exit $? task
 
 fi
 
-. build_build.sh
+# Running mounted postbuild
+if [ -e /src/.webbuild/postbuild.sh ]; then
+  header ".webbuild POSTBUILD"
+  /bin/bash /src/.webbuild/postbuild.sh $BASE
+  check_and_exit $? postbuild
+fi
 
 if [ "x" != "x$FILE_OWNER" ]; then
   header "Setting user rights"
   chown -R $FILE_OWNER /app
   check_and_exit $? chown_build
 fi
-_build
+
 if [ ! "$(ls -A /app)" ]; then
   echo "*** NO BUILD RESULT"
   echo "*** For any questions or issues go to https://github.com/sascha-andres/webbuild"

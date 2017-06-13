@@ -14,6 +14,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+# NVM
+NVM_DIR=/root/.nvm
+export NVM_DIR
+. "$NVM_DIR/nvm.sh"
+
 header "BUILD"
 
 if [ 1 == $USENODE ]; then
@@ -67,11 +72,4 @@ if [ -e /src/.webbuild/custom.sh ]; then
   header "DEPRECATED: Running CUSTOM"
   /bin/bash /src/.webbuild/custom.sh $BASE
   check_and_exit $? custom
-fi
-
-# Running mounted postbuild
-if [ -e /src/.webbuild/postbuild.sh ]; then
-  header ".webbuild POSTBUILD"
-  /bin/bash /src/.webbuild/postbuild.sh $BASE
-  check_and_exit $? postbuild
 fi

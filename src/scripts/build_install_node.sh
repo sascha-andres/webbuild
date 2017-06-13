@@ -14,6 +14,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+# NVM
+NVM_DIR=/root/.nvm
+export NVM_DIR
+. "$NVM_DIR/nvm.sh"
+
 if [ 0 -lt $NODE_ACTIVE ]; then
   header "NODE and NODE based"
 
