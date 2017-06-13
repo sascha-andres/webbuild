@@ -152,7 +152,7 @@ if [ -e /src/Taskfile.yml ]; then
   header "Using task"
   log "look at https://github.com/go-task/task for documentation"
   cd /src
-  task build
+  /bin/task build
 
 else
 
@@ -163,9 +163,9 @@ fi
 if [ "x" != "x$FILE_OWNER" ]; then
   header "Setting user rights"
   chown -R $FILE_OWNER /app
-  check_and_exit $? chown
+  check_and_exit $? chown_build
 fi
-
+_build
 if [ ! "$(ls -A /app)" ]; then
   echo "*** NO BUILD RESULT"
   echo "*** For any questions or issues go to https://github.com/sascha-andres/webbuild"
