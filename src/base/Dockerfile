@@ -1,5 +1,7 @@
 COPY scripts/build.sh /exec/build.sh
 COPY scripts/build_build.sh /exec/build_build.sh
+COPY scripts/build_build.sh /exec/build_install.sh
+COPY scripts/build_build.sh /exec/build_node.sh
 COPY scripts/composer /usr/local/bin/composer
 COPY scripts/install.sh /exec/install.sh
 

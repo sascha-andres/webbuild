@@ -1,6 +1,6 @@
 #! /bin/bash
 
-# Copyright 2016 Sascha Andres
+# Copyright 2017 Sascha Andres
 #   
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -86,66 +86,10 @@ let "NODE_ACTIVE += $USENODE"
 let "NODE_ACTIVE += $RUNGRUNT"
 let "NODE_ACTIVE += $RUNGULP"
 let "NODE_ACTIVE += $RUNBOWER"
-if [ 0 -lt $NODE_ACTIVE ]; then
-  header "NODE and NODE based"
 
-  if [ -e /src/.webbuild/.nvmrc ]; then
-    echo "*** Using .nvmrc"
-    cd /src/.webbuild
-    nvm install
-    check_and_exit $? NVM_USE
-    nvm use
-    check_and_exit $? NVM_USE
-    cd $BASE
-  else
-    nvm install 6
-    check_and_exit $? NVM_INSTALL
-    nvm use 6
-    check_and_exit $? NVM_USE
-  fi
+. build_install_node.sh
 
-  echo "==> NODE version: `node --version`"
-
-  header "Updating npm"
-  if [ 1 == $SHOWPROGESS ]; then
-    npm install -g npm > /dev/null
-  else
-    npm install -g npm --no-progress > /dev/null
-  fi
-  check_and_exit $? npm_update
-
-  echo "==> NPM version: `npm --version`"
-fi
-
-if [ 1 == $RUNGRUNT ]; then
-  header "Installing grunt"
-  if [ 1 == $SHOWPROGESS ]; then
-    npm install -g grunt > /dev/null
-  else
-    npm install -g grunt --no-progress > /dev/null
-  fi
-  check_and_exit $? GRUNT
-fi
-
-if [ 1 == $RUNGULP ]; then
-  header "Installing gulp"
-  if [ 1 == $SHOWPROGESS ]; then
-    npm install -g gulp > /dev/null
-  else
-    npm install -g gulp --no-progress > /dev/null
-  fi
-  check_and_exit $? GULP
-fi
-
-if [ 1 == $RUNBOWER ]; then
-  header "Installing bower"
-  if [ 1 == $SHOWPROGESS ]; then
-    npm install -g bower > /dev/null
-  else
-    npm install -g bower --no-progress > /dev/null
-  fi
-  check_and_exit $? BOWER
-fi 
+. build_install.sh
 
 if [ -e $BASE/Taskfile.yml ]; then
 
@@ -153,11 +97,9 @@ if [ -e $BASE/Taskfile.yml ]; then
   log "look at https://github.com/go-task/task for documentation"
   /bin/task build
 
-else
-
-  . build_build.sh
-
 fi
+
+. build_build.sh
 
 if [ "x" != "x$FILE_OWNER" ]; then
   header "Setting user rights"
