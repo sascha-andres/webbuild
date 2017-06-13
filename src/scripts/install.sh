@@ -65,7 +65,7 @@ exec_and_continue_on_ok "apt-get autoremove -qq -y"
 exec_and_continue_on_ok "apt-get clean -qq"
 
 header "nvm" 
-exec_and_continue_on_ok "wget -qO- https://raw.githubusercontent.com/creationix/nvm/v0.33.1/install.sh | bash"
+exec_and_continue_on_ok "wget -qO- https://raw.githubusercontent.com/creationix/nvm/v0.33.2/install.sh | bash"
 
 header "yarn"
 exec_and_continue_on_ok "apt-get install -qq -y yarn "
