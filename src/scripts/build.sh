@@ -156,67 +156,8 @@ if [ -e /src/Taskfile.yml ]; then
 
 else
 
-  header "BUILD"
+  . build_build.sh
 
-  if [ 1 == $USENODE ]; then
-    # run package managers
-    if [ -e $BASE/package.json ]; then
-      header "RUNNING NPM INSTALL"
-      if [ 1 == $SHOWPROGESS ]; then
-        $PKG_MANAGER install > /dev/null
-      else
-        $PKG_MANAGER install --no-progress > /dev/null
-      fi
-      check_and_exit $? npm_install
-    fi
-  fi
-
-  if [ 1 == $RUNBOWER ]; then
-    if [ -e $BASE/bower.json ]; then
-      header "Running BOWER"
-      bower install --allow-root --config.interactive=false
-      check_and_exit $? bower
-    fi
-  fi
-
-  if [ 1 == $RUNCOMPOSER ]; then
-    if [ -e $BASE/composer.json ]; then
-      header "Running COMPOSER"
-      composer install --no-dev --prefer-dist --optimize-autoloader
-      check_and_exit $? composer
-    fi
-  fi
-
-  # run build systems
-  if [ 1 == $RUNGRUNT ]; then
-    if [ -e $BASE/Gruntfile ]; then
-      header "Running GRUNT"
-      grunt
-      check_and_exit $? grunt
-    fi
-  fi
-
-  if [ 1 == $RUNGULP ]; then
-    if [ -e $BASE/gulpfile.js ]; then
-      header "Running GULP"
-      gulp
-      check_and_exit $? gulp
-    fi
-  fi
-
-  # run custom.sh if included in source
-  if [ -e /src/.webbuild/custom.sh ]; then
-    header "DEPRECATED: Running CUSTOM"
-    /bin/bash /src/.webbuild/custom.sh $BASE
-    check_and_exit $? custom
-  fi
-
-  # Running mounted postbuild
-  if [ -e /src/.webbuild/postbuild.sh ]; then
-    header ".webbuild POSTBUILD"
-    /bin/bash /src/.webbuild/postbuild.sh $BASE
-    check_and_exit $? postbuild
-  fi
 fi
 
 if [ "x" != "x$FILE_OWNER" ]; then
