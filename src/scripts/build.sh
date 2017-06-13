@@ -147,11 +147,10 @@ if [ 1 == $RUNBOWER ]; then
   check_and_exit $? BOWER
 fi 
 
-if [ -e /src/Taskfile.yml ]; then
+if [ -e $BASE/Taskfile.yml ]; then
 
   header "Using task"
   log "look at https://github.com/go-task/task for documentation"
-  cd /src
   /bin/task build
 
 else
