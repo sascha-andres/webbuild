@@ -67,6 +67,14 @@ if [ 1 == $RUNGULP ]; then
   fi
 fi
 
+if [ 1 == $RUNANGULAR2CLI ]; then
+  if [ -e $BASE/.angular-cli.json ]; then
+    header "Running ANGULAR2CLI"
+    ng build --prod
+    check_and_exit $? ng
+  fi
+fi
+
 # run custom.sh if included in source
 if [ -e /src/.webbuild/custom.sh ]; then
   header "DEPRECATED: Running CUSTOM"

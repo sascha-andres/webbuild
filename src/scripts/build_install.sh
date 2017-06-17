@@ -49,3 +49,19 @@ if [ 1 == $RUNBOWER ]; then
   fi
   check_and_exit $? BOWER
 fi 
+
+if [ 1 == $RUNANGULAR2CLI ]; then
+  header "Installing @angular/cli"
+  
+  ANGULAR2CLI="@angular/cli";
+  if [ "" != $VERSION_ANGULAR2CLI ]; then
+    ANGULAR2CLI="@angular/cli@$VERSION_ANGULAR2CLI";
+  fi
+  
+  if [ 1 == $SHOWPROGESS ]; then
+    npm install -g $ANGULAR2CLI > /dev/null
+  else
+    npm install -g $ANGULAR2CLI --no-progress > /dev/null
+  fi
+  check_and_exit $? ANGULAR2CLI
+fi
