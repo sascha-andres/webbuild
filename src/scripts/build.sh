@@ -57,7 +57,7 @@ USEYARN=0
 SHOWPROGESS=0
 VERSION_ANGULAR2CLI=""
 
-header "Running version 20170613"
+header "Running version 20170704"
 
 # NVM
 NVM_DIR=/root/.nvm
