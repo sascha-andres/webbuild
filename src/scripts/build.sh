@@ -93,6 +93,8 @@ echo "RUNANGULAR2CLI: $RUNANGULAR2CLI"
 echo "USEYARN:        $USEYARN"
 echo "USENODE:        $USENODE"
 echo "SHOWPROGESS:    $SHOWPROGESS"
+echo "HTTP_PROXY:     $HTTP_PROXY"
+echo "HTTPS_PROXY:    $HTTPS_PROXY"
 
 header "Setting package manager"
 
@@ -111,6 +113,17 @@ let "NODE_ACTIVE += $RUNBOWER"
 let "NODE_ACTIVE += $RUNANGULAR2CLI"
 
 . /exec/build_install_node.sh
+
+if [ 1 != $USEYARN ]; then
+  if [ "x" != "x$HTTP_PROXY" ]; then
+    echo "Setting http proxy"
+    npm config set proxy $HTTP_PROXY
+  fi
+  if [ "x" != "x$HTTPS_PROXY" ]; then
+    echo "Setting https proxy"
+    npm config set https-proxy $HTTPS_PROXY
+  fi
+fi
 
 . /exec/build_install.sh
 
