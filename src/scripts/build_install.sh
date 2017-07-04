@@ -50,7 +50,7 @@ if [ 1 == $RUNBOWER ]; then
   check_and_exit $? BOWER
 fi 
 
-if [ 1 == $RUNANGULAR2CLI ]; then
+if [ 1 == $USEANGULAR2CLI ]; then
   header "Installing @angular/cli"
   
   ANGULAR2CLI="@angular/cli";
