@@ -67,10 +67,9 @@ if [ 1 == $RUNGULP ]; then
   fi
 fi
 
-if [ 1 == $RUNANGULAR2CLI ]; then
+if [ 1 == $USEANGULAR2CLI ]; then
   if [ -e $BASE/.angular-cli.json ]; then
-    header "Running ANGULAR2CLI"
-    ng build --prod
+    header "ANGULAR2CLI (ng) is available"
     check_and_exit $? ng
   fi
 fi
