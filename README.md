@@ -53,9 +53,10 @@ See https://github.com/sascha-andres/webbuild/wiki/Customization for more inform
 6. `composer` without dev dependencies if `$BASE/composer.json` exists
 7. `grunt` if `$BASE/Gruntfile` exists
 8. `gulp` if `$BASE/gulpfile.js` exists
-9. `$BASE/.webbuild/custom.sh` if it exists10.
-10. task if `$BASE/Taskfile.yml` exists
-11. `$BASE/.webbuild/postbuild.sh` if it exists
+9. `angularcli` if `$BASE/.angular-cli.json` exists
+10. `$BASE/.webbuild/custom.sh` if it exists
+11. task if `$BASE/Taskfile.yml` exists
+12. `$BASE/.webbuild/postbuild.sh` if it exists
 
 ## Return codes ##
 
