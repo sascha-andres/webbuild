@@ -10,16 +10,16 @@ The container can be used using briefbote/webbuild
 
 There are four flavors of this container:
 
-* PHP 5.5
 * PHP 5.6
 * PHP 7.0
 * PHP 7.1
+* PHP 7.2
 
 You can use specific php versions by using them as a tag:
 
-`docker run briefbote/webbuild:56` for PHP5.5 for example.
+`docker run briefbote/webbuild:70` for PHP7.0 for example.
 
-The `latest` tag points to the PHP7.0 version
+The `latest` tag points to the PHP7.2 version
 
 Build expects `/src` containing the source code and `/app` containing the release after all build steps have run.
 
