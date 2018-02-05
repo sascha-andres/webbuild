@@ -1,0 +1,26 @@
+---
+
+image: docker
+
+services:
+- docker:dind
+
+stages:
+  - build
+
+before_script:
+  - apk add --update make
+  - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY
+
+build:
+  stage: build
+  tags:
+    - private-cloud
+  only:
+    - develop
+    - master
+  variables:
+    NAMESPACE: $CI_REGISTRY_IMAGE
+  script:
+    - make all
+    - make push
