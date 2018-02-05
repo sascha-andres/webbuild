@@ -56,6 +56,8 @@ function log() {
 ### bash/log.sh ###
 
 header "Updating system"
+exec_and_continue_on_ok "apt-get update -qq -y"
+exec_and_continue_on_ok "apt-get install gnupg -qq -y"
 exec_and_continue_on_ok "curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - "
 exec_and_continue_on_ok "echo \"deb http://dl.yarnpkg.com/debian/ stable main\" | tee /etc/apt/sources.list.d/yarn.list"
 exec_and_continue_on_ok "apt-get update -qq -y"
