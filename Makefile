@@ -13,3 +13,6 @@ php72:
 	cd src && make php72
 
 all: php56 php70 php71 php72
+
+push:
+	cd src && make push
