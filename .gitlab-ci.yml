@@ -20,7 +20,7 @@ build:
     - develop
     - master
   variables:
-    NAMESPACE: ${$CI_REGISTRY_IMAGE}
+    NAMESPACE: $CI_REGISTRY_IMAGE
   script:
     - make all
     - make push
