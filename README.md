@@ -1,6 +1,4 @@
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-!! THIS PROJECT IS DEPRECATED AND NOT MAINTAINED ANYMORE !!
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+# !! THIS PROJECT IS DEPRECATED AND NOT MAINTAINED ANYMORE !!
 
 # webbuild #
 
