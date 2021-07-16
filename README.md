@@ -1,3 +1,7 @@
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!! THIS PROJECT IS DEPRECATED AND NOT MAINTAINED ANYMORE !!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
 # webbuild #
 
 webbuild is a docker container that runs your frontend build tasks. It
